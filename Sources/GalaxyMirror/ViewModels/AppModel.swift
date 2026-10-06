@@ -23,6 +23,8 @@ final class AppModel: ObservableObject {
     private var startupTask: Task<Void, Never>?
     private var stoppedByUser = false
     private var startupTimedOut = false
+    private var startAttempt = 0
+    private static let maxStartRetries = 2
     private static let deviceKey = "pairedDevice"
 
     init() {
@@ -108,24 +110,42 @@ final class AppModel: ObservableObject {
     func startMirroring() async {
         guard !isMirroring else { return }
         mirrorError = nil
-        guard let serial = await ensureConnected() else { return }
+        startAttempt = 0
+        stoppedByUser = false
+        await launchMirror()
+    }
+
+    private func launchMirror() async {
+        startupTimedOut = false
+        mirrorState = .starting
+        guard let connected = await ensureConnected(), let serial = await freshConnection(replacing: connected),
+              !stoppedByUser
+        else {
+            mirrorState = .idle
+            return
+        }
 
         do {
-            stoppedByUser = false
-            startupTimedOut = false
             mirrorProcess = try Scrcpy.launch(serial: serial, title: deviceName) { [weak self] failure in
                 Task { @MainActor in self?.mirrorEnded(failure: failure) }
             }
-            mirrorState = .starting
             startupTask = Task { await waitForFirstFrame() }
         } catch {
+            mirrorState = .idle
             mirrorError = error.localizedDescription
         }
     }
 
+    private func freshConnection(replacing serial: String) async -> String? {
+        guard !ADBOutputParser.isUSBSerial(serial) else { return serial }
+        await ADB.disconnect(serial)
+        connection = .idle
+        return await ensureConnected()
+    }
+
     private func waitForFirstFrame() async {
         guard let process = mirrorProcess else { return }
-        let streaming = await Scrcpy.waitUntilStreaming(process, timeout: 20)
+        let streaming = await Scrcpy.waitUntilStreaming(process, timeout: 12)
         guard mirrorState == .starting, process.isRunning else { return }
         if streaming {
             mirrorState = .running
@@ -137,15 +157,31 @@ final class AppModel: ObservableObject {
     }
 
     func stopMirroring() {
-        guard let process = mirrorProcess, process.isRunning else { return }
         stoppedByUser = true
+        startupTask?.cancel()
+        guard let process = mirrorProcess, process.isRunning else {
+            mirrorState = .idle
+            return
+        }
         process.terminate()
     }
 
     private func mirrorEnded(failure: String?) {
         startupTask?.cancel()
         mirrorProcess = nil
-        if mirrorState == .running {
+        let wasStarting = mirrorState == .starting
+
+        if wasStarting, !stoppedByUser, startupTimedOut || failure != nil, startAttempt < Self.maxStartRetries {
+            startAttempt += 1
+            Task {
+                try? await Task.sleep(for: .seconds(1))
+                guard !stoppedByUser else { return }
+                await launchMirror()
+            }
+            return
+        }
+
+        if !wasStarting {
             NSApp.unhide(nil)
             NSApp.activate()
         }
