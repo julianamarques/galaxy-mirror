@@ -1,4 +1,4 @@
-import CoreGraphics
+import Darwin
 import Foundation
 
 enum Scrcpy {
@@ -17,36 +17,62 @@ enum Scrcpy {
 
         FileManager.default.createFile(atPath: log.path, contents: nil)
         let output = try FileHandle(forWritingTo: log)
-        process.standardOutput = output
-        process.standardError = output
-        process.terminationHandler = { process in
+
+        var primary: Int32 = -1
+        var replica: Int32 = -1
+        guard openpty(&primary, &replica, nil, nil, nil) == 0 else {
+            throw ToolError.failed("Não foi possível iniciar o scrcpy.")
+        }
+        let terminal = FileHandle(fileDescriptor: replica, closeOnDealloc: true)
+        process.standardOutput = terminal
+        process.standardError = terminal
+
+        let reader = DispatchSource.makeReadSource(fileDescriptor: primary, queue: .global(qos: .utility))
+        reader.setEventHandler {
+            var buffer = [UInt8](repeating: 0, count: 4096)
+            let count = read(primary, &buffer, buffer.count)
+            if count > 0 {
+                try? output.write(contentsOf: buffer[..<count])
+            } else {
+                reader.cancel()
+            }
+        }
+        reader.setCancelHandler {
+            close(primary)
             try? output.close()
-            onExit(process.terminationStatus == 0 ? nil : errorSummary(log))
         }
 
-        try process.run()
+        process.terminationHandler = { process in
+            let status = process.terminationStatus
+            DispatchQueue.global().asyncAfter(deadline: .now() + 0.3) {
+                onExit(status == 0 ? nil : errorSummary())
+            }
+        }
+
+        do {
+            try process.run()
+        } catch {
+            close(primary)
+            try? output.close()
+            throw error
+        }
+        try? terminal.close()
+        reader.resume()
         return process
     }
 
-    static func waitForWindow(of process: Process, timeout: TimeInterval) async -> Bool {
+    static func waitUntilStreaming(_ process: Process, timeout: TimeInterval) async -> Bool {
         let deadline = Date().addingTimeInterval(timeout)
         while Date() < deadline, !Task.isCancelled, process.isRunning {
-            if hasWindow(pid: process.processIdentifier) { return true }
+            if let text = try? String(contentsOf: log, encoding: .utf8), text.contains("Texture:") { return true }
             try? await Task.sleep(for: .milliseconds(300))
         }
         return false
     }
 
-    private static func hasWindow(pid: pid_t) -> Bool {
-        let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
-        return windows.contains {
-            ($0[kCGWindowOwnerPID as String] as? pid_t) == pid && ($0[kCGWindowLayer as String] as? Int) == 0
-        }
-    }
-
-    private static func errorSummary(_ log: URL) -> String {
+    private static func errorSummary() -> String {
         let errors = ((try? String(contentsOf: log, encoding: .utf8)) ?? "")
-            .split(separator: "\n")
+            .split(whereSeparator: \.isNewline)
             .filter { $0.contains("ERROR") }
             .suffix(3)
             .joined(separator: "\n")

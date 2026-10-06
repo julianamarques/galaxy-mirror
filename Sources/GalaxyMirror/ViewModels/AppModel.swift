@@ -125,7 +125,7 @@ final class AppModel: ObservableObject {
 
     private func waitForFirstFrame() async {
         guard let process = mirrorProcess else { return }
-        let streaming = await Scrcpy.waitForWindow(of: process, timeout: 20)
+        let streaming = await Scrcpy.waitUntilStreaming(process, timeout: 20)
         guard mirrorState == .starting, process.isRunning else { return }
         if streaming {
             mirrorState = .running
