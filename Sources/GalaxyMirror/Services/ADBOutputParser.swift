@@ -10,15 +10,8 @@ enum ADBOutputParser {
         serial.contains(":") ? serial : nil
     }
 
-    static func mdnsServices(_ output: String) -> [MDNSService] {
-        output
-            .split(separator: "\n")
-            .compactMap { line -> MDNSService? in
-                var parts = line.split(separator: "\t").map { $0.trimmingCharacters(in: .whitespaces) }
-                if parts.count < 3 { parts = line.split(whereSeparator: \.isWhitespace).map(String.init) }
-                guard parts.count >= 3, parts[1].hasPrefix("_adb") else { return nil }
-                return MDNSService(name: parts[0], type: parts[1], address: parts[2])
-            }
+    static func isUSBSerial(_ serial: String) -> Bool {
+        !serial.contains(":") && !serial.contains("._adb-tls")
     }
 
     static func devices(_ output: String) -> [ADBDevice] {

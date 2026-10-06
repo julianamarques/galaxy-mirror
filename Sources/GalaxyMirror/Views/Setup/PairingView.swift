@@ -9,8 +9,11 @@ struct PairingView: View {
         } content: {
             if setup.mode == .qr { qrSteps } else { codeSteps }
         } buttons: {
-            Button(setup.mode == .qr ? "Usar código de seis dígitos" : "Usar QR code") {
-                setup.mode = setup.mode == .qr ? .code : .qr
+            HStack(spacing: 16) {
+                Button(setup.mode == .qr ? "Usar código de seis dígitos" : "Usar QR code") {
+                    setup.mode = setup.mode == .qr ? .code : .qr
+                }
+                Button("Usar cabo USB") { setup.beginUSB() }
             }
             .buttonStyle(.link)
             .controlSize(.regular)

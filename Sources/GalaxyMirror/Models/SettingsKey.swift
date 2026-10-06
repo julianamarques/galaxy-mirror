@@ -14,7 +14,7 @@ enum SettingsKey {
     enum Default {
         static let quality = Quality.high
         static let codec = Codec.h264
-        static let turnScreenOff = true
+        static let turnScreenOff = false
         static let audio = true
         static let stayAwake = true
         static let alwaysOnTop = false

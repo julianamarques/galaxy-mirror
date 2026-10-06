@@ -19,7 +19,7 @@ struct MirrorArgumentsTests {
         #expect(args.contains("--video-codec=h264"))
         #expect(args.contains("--max-size=1920"))
         #expect(args.contains("--video-bit-rate=12M"))
-        #expect(args.contains("--turn-screen-off"))
+        #expect(!args.contains("--turn-screen-off"))
         #expect(args.contains("--stay-awake"))
         #expect(!args.contains("--no-audio"))
         #expect(!args.contains("--new-display"))
@@ -37,6 +37,12 @@ struct MirrorArgumentsTests {
 
         #expect(args.contains("--new-display"))
         #expect(!args.contains("--turn-screen-off"))
+    }
+
+    @Test func turnsScreenOffWhenEnabled() {
+        let args = MirrorArguments.make(serial: "s", title: "t", defaults: makeDefaults([SettingsKey.turnScreenOff: true]))
+
+        #expect(args.contains("--turn-screen-off"))
     }
 
     @Test func disablesAudio() {

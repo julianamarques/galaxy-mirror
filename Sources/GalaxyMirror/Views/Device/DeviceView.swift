@@ -9,8 +9,8 @@ struct DeviceView: View {
         } content: {
             VStack(alignment: .leading, spacing: 8) {
                 statusLine
-                if let error = app.mirrorError ?? connectionError {
-                    ErrorDetail(error)
+                if let detail = app.mirrorError ?? problem?.detail {
+                    ErrorDetail(detail)
                 }
             }
         } buttons: {
@@ -33,25 +33,34 @@ struct DeviceView: View {
         }
     }
 
-    private var connectionError: String? {
-        if case .failed(let message) = app.connection { return message }
+    private var problem: ConnectionProblem? {
+        if case .failed(let problem) = app.connection { return problem }
         return nil
     }
 
     @ViewBuilder
     private var statusLine: some View {
-        if app.isMirroring {
+        if app.mirrorState == .starting {
+            ProgressLabel("Iniciando o espelhamento…")
+        } else if app.mirrorState == .running {
             Label("Espelhando. Feche a janela do Galaxy para encerrar.", systemImage: "rectangle.on.rectangle")
         } else {
             switch app.connection {
             case .idle:
                 Text("Clique em Espelhar para ver e controlar o Galaxy neste Mac.")
             case .connecting:
-                ProgressLabel("Procurando o Galaxy na rede…")
-            case .connected:
-                Label("Conectado por Wi-Fi", systemImage: "wifi")
-            case .failed:
-                Text("Não foi possível conectar. Verifique se o Galaxy está desbloqueado, na mesma rede Wi-Fi e com a Depuração sem fio ativada.")
+                ProgressLabel("Procurando o Galaxy…")
+            case .connected(let serial):
+                if ADBOutputParser.isUSBSerial(serial) {
+                    Label("Conectado por cabo USB", systemImage: "cable.connector")
+                } else {
+                    Label("Conectado por Wi-Fi", systemImage: "wifi")
+                }
+            case .failed(let problem):
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(problem.title).foregroundStyle(.primary)
+                    Text(problem.message)
+                }
             }
         }
     }

@@ -6,18 +6,23 @@ final class AppModel: ObservableObject {
         case idle
         case connecting
         case connected(serial: String)
-        case failed(String)
+        case failed(ConnectionProblem)
     }
 
     @Published private(set) var pairedDevice: PairedDevice?
     @Published var showingSetup: Bool
     @Published private(set) var connection: Connection = .idle
-    @Published private var mirrorProcess: Process?
+    enum MirrorState { case idle, starting, running }
+
+    @Published private(set) var mirrorState: MirrorState = .idle
     @Published private(set) var mirrorError: String?
 
     lazy var setup = SetupModel(app: self)
 
+    private var mirrorProcess: Process?
+    private var startupTask: Task<Void, Never>?
     private var stoppedByUser = false
+    private var startupTimedOut = false
     private static let deviceKey = "pairedDevice"
 
     init() {
@@ -29,7 +34,7 @@ final class AppModel: ObservableObject {
     }
 
     var deviceName: String { pairedDevice?.name ?? "Galaxy" }
-    var isMirroring: Bool { mirrorProcess != nil }
+    var isMirroring: Bool { mirrorState != .idle }
 
     func launched() {
         Task {
@@ -67,12 +72,25 @@ final class AppModel: ObservableObject {
 
     @discardableResult
     func ensureConnected() async -> String? {
+        guard var device = pairedDevice else { return nil }
+
+        if let usb = await ADB.usbDevices().first(where: { $0.isReady && device.matchesUSB($0.serial) }) {
+            if device.usbSerial != usb.serial {
+                device.usbSerial = usb.serial
+                save(device)
+            }
+            connection = .connected(serial: usb.serial)
+            return usb.serial
+        }
         if case .connected(let serial) = connection, await ADB.isReady(serial) {
             return serial
         }
-        guard var device = pairedDevice else { return nil }
-
         connection = .connecting
+        guard device.supportsWiFi else {
+            connection = .failed(ConnectionProblem(ToolError.usbNotConnected))
+            return nil
+        }
+
         do {
             let serial = try await ADB.waitForConnection(guid: device.guid, lastAddress: device.lastAddress)
             if let address = ADBOutputParser.networkAddress(serial) {
@@ -82,7 +100,7 @@ final class AppModel: ObservableObject {
             connection = .connected(serial: serial)
             return serial
         } catch {
-            connection = .failed(error.localizedDescription)
+            connection = .failed(ConnectionProblem(error))
             return nil
         }
     }
@@ -94,12 +112,27 @@ final class AppModel: ObservableObject {
 
         do {
             stoppedByUser = false
+            startupTimedOut = false
             mirrorProcess = try Scrcpy.launch(serial: serial, title: deviceName) { [weak self] failure in
                 Task { @MainActor in self?.mirrorEnded(failure: failure) }
             }
-            NSApp.hide(nil)
+            mirrorState = .starting
+            startupTask = Task { await waitForFirstFrame() }
         } catch {
             mirrorError = error.localizedDescription
+        }
+    }
+
+    private func waitForFirstFrame() async {
+        guard let process = mirrorProcess else { return }
+        let streaming = await Scrcpy.waitForWindow(of: process, timeout: 20)
+        guard mirrorState == .starting, process.isRunning else { return }
+        if streaming {
+            mirrorState = .running
+            NSApp.hide(nil)
+        } else {
+            startupTimedOut = true
+            process.terminate()
         }
     }
 
@@ -110,11 +143,17 @@ final class AppModel: ObservableObject {
     }
 
     private func mirrorEnded(failure: String?) {
+        startupTask?.cancel()
         mirrorProcess = nil
-        NSApp.unhide(nil)
-        NSApp.activate()
+        if mirrorState == .running {
+            NSApp.unhide(nil)
+            NSApp.activate()
+        }
+        mirrorState = .idle
 
-        if let failure, !stoppedByUser {
+        if startupTimedOut {
+            connection = .failed(ConnectionProblem(ToolError.mirrorTimeout))
+        } else if let failure, !stoppedByUser {
             mirrorError = failure
             connection = .idle
         }

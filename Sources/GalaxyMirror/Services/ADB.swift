@@ -9,18 +9,13 @@ enum ADB {
         _ = try? await run(["start-server"], timeout: 15, captureOutput: false)
     }
 
-    static func mdnsServices() async -> [MDNSService] {
-        guard let result = try? await run(["mdns", "services"], timeout: 10) else { return [] }
-        return ADBOutputParser.mdnsServices(result.stdout)
-    }
-
     static func devices() async -> [ADBDevice] {
         guard let result = try? await run(["devices"], timeout: 10) else { return [] }
         return ADBOutputParser.devices(result.stdout)
     }
 
     static func isReady(_ serial: String) async -> Bool {
-        await devices().contains { $0.serial == serial && $0.state == "device" }
+        await devices().contains { $0.serial == serial && $0.isReady }
     }
 
     static func pair(address: String, code: String) async throws -> String? {
@@ -57,12 +52,11 @@ enum ADB {
         while Date() < deadline {
             try Task.checkCancellation()
 
-            if let ready = await devices().first(where: { $0.state == "device" && matches($0.serial) }) {
+            if let ready = await devices().first(where: { $0.isReady && matches($0.serial) }) {
                 return ready.serial
             }
 
-            let service = await mdnsServices().first { service in
-                guard service.isConnect else { return false }
+            let service = await Bonjour.services(ofType: MDNSService.connectType).first { service in
                 if let guid { return service.name == guid }
                 return service.host == host
             }
@@ -79,7 +73,15 @@ enum ADB {
 
             try await Task.sleep(for: .seconds(1))
         }
+
+        if let host, let problem = await LocalNetwork.diagnose(phoneHost: host) {
+            throw problem
+        }
         throw ToolError.timeout
+    }
+
+    static func usbDevices() async -> [ADBDevice] {
+        await devices().filter(\.isUSB)
     }
 
     static func deviceName(_ serial: String) async -> String {

@@ -13,8 +13,9 @@ struct SetupFlowView: View {
             case .missingTools: missingTools
             case .prepare: prepare
             case .pair: PairingView(setup: setup)
+            case .usb: usb
             case .connecting: connecting
-            case .failed(let detail): failed(detail)
+            case .failed(let problem): failed(problem)
             case .done: done
             }
         }
@@ -94,16 +95,45 @@ struct SetupFlowView: View {
         }
     }
 
-    private func failed(_ detail: String) -> some View {
-        SetupPage(title: "Não é possível conectar ao Galaxy") {
+    private var usb: some View {
+        SetupPage(title: "Conectar por cabo USB") {
+            MirrorIllustration(status: .searching)
+        } content: {
+            VStack(alignment: .leading, spacing: 14) {
+                NumberedSteps(steps: [
+                    "Em **Configurações › Opções do desenvolvedor**, ative a **Depuração USB**.",
+                    "Conecte o Galaxy a este Mac com um cabo USB.",
+                    "No Galaxy, toque em **Permitir** quando aparecer **Permitir depuração USB?**.",
+                ])
+                .font(.body)
+                ProgressLabel(setup.usbStatus == .unauthorized ? "Toque em Permitir no Galaxy…" : "Aguardando o Galaxy no cabo USB…")
+                    .font(.callout)
+            }
+        } buttons: {
+            Button("Usar Wi-Fi") { setup.beginPairing() }
+                .buttonStyle(.link)
+                .controlSize(.regular)
+            Spacer()
+            PillButton("Cancelar") { setup.cancel() }
+        }
+    }
+
+    private func failed(_ problem: ConnectionProblem) -> some View {
+        SetupPage(title: problem.title) {
             MirrorIllustration()
         } content: {
             VStack(alignment: .leading, spacing: 8) {
-                Text("Para configurar o Espelhamento do Galaxy, assegure-se de que o celular esteja ligado, desbloqueado, conectado à mesma rede Wi-Fi que este Mac e com a Depuração sem fio ativada nas Opções do desenvolvedor.")
-                ErrorDetail(detail)
+                Text(problem.message)
+                if let detail = problem.detail {
+                    ErrorDetail(detail)
+                }
             }
         } buttons: {
-            PillButton("Saiba Mais…") { openURL(Links.learnMore) }
+            if problem.suggestsUSB {
+                PillButton("Usar Cabo USB") { setup.beginUSB() }
+            } else {
+                PillButton("Saiba Mais…") { openURL(Links.learnMore) }
+            }
             Spacer()
             PillButton("Agora Não") { setup.cancel() }
             PillButton("Tentar Novamente", prominent: true) { setup.retry() }
@@ -114,7 +144,7 @@ struct SetupFlowView: View {
         SetupPage(title: "Tudo pronto") {
             MirrorIllustration(status: .connected)
         } content: {
-            Text("O \(app.deviceName) está pronto. Use o trackpad e o teclado do Mac para controlar o celular — a tela dele fica apagada enquanto você usa.")
+            Text("O \(app.deviceName) está pronto. Use o trackpad e o teclado do Mac para controlar o celular, enquanto ele continua funcionando normalmente.")
         } buttons: {
             SettingsPillLink()
             Spacer()

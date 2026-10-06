@@ -39,10 +39,12 @@ scripts/          build do .app e geração do ícone
 1. **Preparar o Galaxy** — ativar as Opções do desenvolvedor e a Depuração sem fio.
 2. **Parear** — o app mostra um QR code no mesmo formato do Android Studio (`WIFI:T:ADB;S:<nome>;P:<senha>;;`). Ao escaneá-lo, o celular anuncia `_adb-tls-pairing._tcp` via mDNS e o app executa `adb pair`.
 3. **Conectar** — o app aguarda o serviço `_adb-tls-connect._tcp` do celular e executa `adb connect`. O identificador do aparelho fica salvo para reconectar automaticamente, mesmo quando a porta muda.
-4. **Espelhar** — o `scrcpy` é aberto com as opções escolhidas em Ajustes (qualidade, codec, áudio, apagar a tela do celular etc.).
+4. **Cabo USB (alternativa)** — sem Wi-Fi em comum, o app também conecta pelo cabo com a Depuração USB. Um Galaxy pareado por Wi-Fi passa a usar o cabo automaticamente quando ele está conectado.
+5. **Espelhar** — o `scrcpy` é aberto com as opções escolhidas em Ajustes (qualidade, codec, áudio, apagar a tela do celular etc.).
 
 ## Limitações
 
+- A Depuração sem fio exige que o Mac e o celular estejam na mesma rede Wi-Fi; pelo hotspot do próprio celular ela não funciona (o app detecta e sugere o cabo USB).
 - A Depuração sem fio do Android desliga após reiniciar o celular ou trocar de rede; é preciso reativá-la (o pareamento continua válido).
 - Apps com conteúdo protegido (bancos, streaming) aparecem com tela preta.
 - A janela de espelhamento é a do scrcpy; um renderizador nativo (VideoToolbox + Metal) é um próximo passo possível.
