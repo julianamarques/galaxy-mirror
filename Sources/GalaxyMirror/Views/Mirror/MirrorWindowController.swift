@@ -42,12 +42,29 @@ final class MirrorWindowController: NSWindowController, NSWindowDelegate {
 
     private func videoSizeChanged(_ size: CGSize) {
         guard let window, size.width > 0, size.height > 0 else { return }
-        let height = window.contentLayoutRect.height
+        let current = window.contentLayoutRect.size
+        let screen = (window.screen ?? NSScreen.main)?.visibleFrame.size ?? NSSize(width: 1440, height: 900)
+        let content = Self.fittedContentSize(
+            for: size,
+            longSide: max(current.width, current.height),
+            maxSize: NSSize(width: screen.width * 0.9, height: screen.height * 0.9)
+        )
         window.contentAspectRatio = size
-        var frame = window.frame
-        let contentSize = NSSize(width: height * size.width / size.height, height: height)
-        frame.size = window.frameRect(forContentRect: NSRect(origin: .zero, size: contentSize)).size
-        window.setFrame(frame, display: true, animate: false)
+
+        let center = NSPoint(x: window.frame.midX, y: window.frame.midY)
+        var frame = window.frameRect(forContentRect: NSRect(origin: .zero, size: content))
+        frame.origin = NSPoint(x: center.x - frame.width / 2, y: center.y - frame.height / 2)
+        window.setFrame(window.constrainFrameRect(frame, to: window.screen), display: true, animate: true)
+    }
+
+    static func fittedContentSize(for video: CGSize, longSide: CGFloat, maxSize: CGSize) -> CGSize {
+        let ratio = video.width / video.height
+        var size = ratio >= 1
+            ? CGSize(width: longSide, height: longSide / ratio)
+            : CGSize(width: longSide * ratio, height: longSide)
+        let scale = min(1, maxSize.width / size.width, maxSize.height / size.height)
+        size = CGSize(width: size.width * scale, height: size.height * scale)
+        return CGSize(width: size.width.rounded(), height: size.height.rounded())
     }
 
     func closeWithoutNotifying() {
@@ -60,10 +77,13 @@ final class MirrorWindowController: NSWindowController, NSWindowDelegate {
     }
 
     private static func initialSize(for videoSize: CGSize) -> NSSize {
-        let available = NSScreen.main?.visibleFrame.height ?? 900
-        let height = (available * 0.8).rounded()
-        guard videoSize.height > 0 else { return NSSize(width: height * 9 / 19.5, height: height) }
-        return NSSize(width: (height * videoSize.width / videoSize.height).rounded(), height: height)
+        let screen = NSScreen.main?.visibleFrame.size ?? NSSize(width: 1440, height: 900)
+        let video = videoSize.height > 0 ? videoSize : CGSize(width: 9, height: 19.5)
+        return fittedContentSize(
+            for: video,
+            longSide: screen.height * 0.8,
+            maxSize: NSSize(width: screen.width * 0.9, height: screen.height * 0.9)
+        )
     }
 
     private func navigationAccessory() -> NSTitlebarAccessoryViewController {
