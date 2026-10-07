@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 CONFIG="${1:-release}"
-APP="build/Espelhamento do Galaxy.app"
+APP="build/Galaxy Mirror.app"
 
 swift build -c "$CONFIG"
 BIN=".build/$CONFIG/GalaxyMirror"

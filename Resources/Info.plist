@@ -5,9 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>pt-BR</string>
 	<key>CFBundleDisplayName</key>
-	<string>Espelhamento do Galaxy</string>
+	<string>Galaxy Mirror</string>
 	<key>CFBundleName</key>
-	<string>Espelhamento do Galaxy</string>
+	<string>Galaxy Mirror</string>
 	<key>CFBundleExecutable</key>
 	<string>GalaxyMirror</string>
 	<key>CFBundleIdentifier</key>
@@ -29,7 +29,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>O Espelhamento do Galaxy procura seu celular na rede Wi-Fi para conectar e espelhar a tela.</string>
+	<string>O Galaxy Mirror procura seu celular na rede Wi-Fi para conectar e espelhar a tela.</string>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_adb-tls-pairing._tcp</string>

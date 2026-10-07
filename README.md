@@ -1,4 +1,4 @@
-# Espelhamento do Galaxy
+# Galaxy Mirror
 
 Espelhe e controle um celular Samsung Galaxy (ou qualquer Android 11+) no macOS, sem fio — com uma configuração guiada no estilo do Espelhamento do iPhone.
 
@@ -13,8 +13,8 @@ O app cuida do pareamento (por QR code ou código de seis dígitos), da descober
 ## Compilar
 
 ```bash
-./scripts/build-app.sh          # gera build/Espelhamento do Galaxy.app
-open "build/Espelhamento do Galaxy.app"
+./scripts/build-app.sh          # gera build/Galaxy Mirror.app
+open "build/Galaxy Mirror.app"
 ```
 
 Para desenvolvimento, `swift run` também funciona, e `swift test` roda os testes. Em builds de debug, `GALAXY_STEP=pair` (ou `prepare`, `code`, `connecting`, `failed`, `done`, `missing`) abre direto numa etapa da configuração.

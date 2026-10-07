@@ -23,7 +23,7 @@ struct SetupFlowView: View {
     }
 
     private var welcome: some View {
-        SetupPage(title: "Espelhamento do Galaxy") {
+        SetupPage(title: "Galaxy Mirror") {
             MirrorIllustration()
         } content: {
             Text("Use seu Galaxy diretamente do Mac. Veja a tela, abra seus apps e digite com o teclado do Mac — tudo sem fio, pela sua rede Wi-Fi.")
@@ -40,7 +40,7 @@ struct SetupFlowView: View {
             MirrorIllustration()
         } content: {
             VStack(alignment: .leading, spacing: 10) {
-                Text("O Espelhamento do Galaxy usa o adb, das ferramentas do Android, para se comunicar com o celular. Instale-o pelo Homebrew no Terminal:")
+                Text("O Galaxy Mirror usa o adb, das ferramentas do Android, para se comunicar com o celular. Instale-o pelo Homebrew no Terminal:")
                 HStack {
                     Text(installCommand)
                         .font(.system(.body, design: .monospaced))
