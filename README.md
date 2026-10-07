@@ -67,6 +67,10 @@ scripts/          build do .app e do .dmg, download do servidor e do adb, geraç
 - Apps com conteúdo protegido (bancos, streaming) aparecem com tela preta.
 - A janela de espelhamento é a do scrcpy; um renderizador nativo (VideoToolbox + Metal) é um próximo passo possível.
 
+## Contribuindo
+
+Correções e melhorias são bem-vindas. Veja o [guia de contribuição](CONTRIBUTING.md).
+
 ## Licença
 
 O Galaxy Mirror é distribuído sob a [licença Apache 2.0](LICENSE). Os créditos e as licenças de terceiros estão em [NOTICE](NOTICE) e acompanham o app em `Contents/Resources/`.
