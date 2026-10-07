@@ -69,7 +69,7 @@ scripts/          build do .app e do .dmg, download do servidor e do adb, geraç
 
 ## Contribuindo
 
-Correções e melhorias são bem-vindas. Veja o [guia de contribuição](CONTRIBUTING.md).
+Correções e melhorias são bem-vindas. Veja o [guia de contribuição](CONTRIBUTING.md). Para reportar vulnerabilidades, siga a [política de segurança](SECURITY.md).
 
 ## Licença
 
