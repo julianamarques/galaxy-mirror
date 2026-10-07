@@ -2,7 +2,16 @@ import Foundation
 
 enum ADB {
     static func run(_ arguments: [String], timeout: TimeInterval, captureOutput: Bool = true) async throws -> CommandResult {
-        try await Tools.run(Tools.require("adb"), arguments, timeout: timeout, captureOutput: captureOutput)
+        let start = Date()
+        do {
+            let result = try await Tools.run(Tools.require("adb"), arguments, timeout: timeout, captureOutput: captureOutput)
+            let elapsed = Date().timeIntervalSince(start)
+            Log.adb.debug("adb \(arguments.joined(separator: " "), privacy: .public) → \(elapsed, format: .fixed(precision: 2))s \(result.output.prefix(200), privacy: .public)")
+            return result
+        } catch {
+            Log.adb.error("adb \(arguments.joined(separator: " "), privacy: .public) falhou: \(error.localizedDescription, privacy: .public)")
+            throw error
+        }
     }
 
     static func startServer() async {
@@ -48,6 +57,10 @@ enum ADB {
         _ = try? await run(["-s", serial, "forward", "--remove", "tcp:\(port)"], timeout: 5)
     }
 
+    static func enableWirelessDebugging(serial: String) async {
+        _ = try? await run(["-s", serial, "shell", "settings", "put", "global", "adb_wifi_enabled", "1"], timeout: 5)
+    }
+
     static func connect(address: String) async {
         _ = try? await run(["connect", address], timeout: 12)
     }
@@ -56,16 +69,23 @@ enum ADB {
         _ = try? await run(["disconnect", serial], timeout: 5)
     }
 
-    static func waitForConnection(guid: String?, host: String? = nil, lastAddress: String? = nil) async throws -> String {
+    static func waitForConnection(
+        guid: String?,
+        host: String? = nil,
+        lastAddress: String? = nil,
+        acceptsUSB: (String) -> Bool = { _ in false },
+        timeout: TimeInterval = 20
+    ) async throws -> String {
         let host = host ?? lastAddress.map(ADBOutputParser.host(of:))
 
         func matches(_ serial: String) -> Bool {
+            if ADBOutputParser.isUSBSerial(serial) { return acceptsUSB(serial) }
             if let guid, serial.hasPrefix(guid) { return true }
             if let host, serial.hasPrefix(host + ":") { return true }
-            return guid == nil && host == nil
+            return false
         }
 
-        let deadline = Date().addingTimeInterval(20)
+        let deadline = Date().addingTimeInterval(timeout)
         var triedLastAddress = false
 
         while Date() < deadline {
@@ -75,7 +95,7 @@ enum ADB {
                 return ready.serial
             }
 
-            let service = await Bonjour.services(ofType: MDNSService.connectType).first { service in
+            let service = guid == nil && host == nil ? nil : await Bonjour.services(ofType: MDNSService.connectType).first { service in
                 if let guid { return service.name == guid }
                 return service.host == host
             }

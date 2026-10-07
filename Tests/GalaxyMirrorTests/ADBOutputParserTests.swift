@@ -48,6 +48,18 @@ struct ADBOutputParserTests {
         #expect(ADBOutputParser.forwardedPort("error: cannot bind listener") == nil)
     }
 
+    @Test func parsesTrackDevicesStream() {
+        var buffer = Array("0000".utf8) + Array("0013RQCY701ZFJA\tdevice\n".utf8) + Array("001E".utf8)
+
+        let lists = ADBOutputParser.trackedDeviceLists(consuming: &buffer)
+
+        #expect(lists.count == 2)
+        #expect(lists[0].isEmpty)
+        #expect(lists[1].map(\.serial) == ["RQCY701ZFJA"])
+        #expect(lists[1].map(\.state) == ["device"])
+        #expect(buffer == Array("001E".utf8))
+    }
+
     @Test func extractsHost() {
         #expect(ADBOutputParser.host(of: "192.168.0.10:41235") == "192.168.0.10")
         #expect(ADBOutputParser.host(of: "192.168.0.10") == "192.168.0.10")

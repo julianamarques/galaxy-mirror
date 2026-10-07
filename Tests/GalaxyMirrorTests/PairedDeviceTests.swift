@@ -18,6 +18,16 @@ struct PairedDeviceTests {
         #expect(!device.supportsWiFi)
     }
 
+    @Test func matchesUSBAndNetworkSerials() {
+        let device = PairedDevice(guid: "adb-R5CX123ABC-vWgJpq", name: "S25", lastAddress: "192.168.18.53:44809", usbSerial: nil)
+
+        #expect(device.matches("R5CX123ABC"))
+        #expect(device.matches("adb-R5CX123ABC-vWgJpq._adb-tls-connect._tcp"))
+        #expect(device.matches("192.168.18.53:41037"))
+        #expect(!device.matches("192.168.18.60:41037"))
+        #expect(!device.matches("OTHER123"))
+    }
+
     @Test func decodesDevicesSavedBeforeUSBSupport() throws {
         let json = #"{"guid":"adb-R5CX123ABC-vWgJpq","name":"S25","lastAddress":"192.168.18.48:44401"}"#
 

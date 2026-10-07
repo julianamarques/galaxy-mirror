@@ -28,6 +28,7 @@ final class AppModel: ObservableObject {
         didSet {
             if mirrorState.showsMirrorWindow, !oldValue.showsMirrorWindow { hideMainWindows() }
             if oldValue.showsMirrorWindow, !mirrorState.showsMirrorWindow { showMainWindows() }
+            if mirrorState == .idle { refreshConnection() }
         }
     }
     @Published private(set) var mirrorError: String?
@@ -35,6 +36,8 @@ final class AppModel: ObservableObject {
     lazy var setup = SetupModel(app: self)
 
     private var mirrorTask: Task<Void, Never>?
+    private let deviceMonitor = DeviceMonitor()
+    private var trackedDevices: [ADBDevice] = []
     private var session: MirrorSession?
     private var mirrorWindow: MirrorWindowController?
     private var hiddenWindows: [NSWindow] = []
@@ -56,12 +59,40 @@ final class AppModel: ObservableObject {
     func launched() {
         Task {
             await ADB.startServer()
+            startMonitoring()
             guard pairedDevice != nil, !showingSetup else { return }
             if UserDefaults.standard.bool(forKey: SettingsKey.autoStart) {
                 startMirroring()
             } else {
                 await ensureConnected()
             }
+        }
+    }
+
+    private func startMonitoring() {
+        deviceMonitor.start { [weak self] devices in
+            DispatchQueue.main.async {
+                MainActor.assumeIsolated { self?.devicesChanged(devices) }
+            }
+        }
+    }
+
+    func stopMonitoring() {
+        deviceMonitor.stop()
+    }
+
+    private func devicesChanged(_ devices: [ADBDevice]) {
+        trackedDevices = devices
+        refreshConnection()
+    }
+
+    private func refreshConnection() {
+        guard let device = pairedDevice, mirrorState == .idle, connection != .connecting else { return }
+        let available = trackedDevices.filter { $0.isReady && device.matches($0.serial) }
+        if let preferred = available.first(where: \.isUSB) ?? available.first {
+            connection = .connected(serial: preferred.serial)
+        } else if case .connected = connection {
+            connection = .idle
         }
     }
 
@@ -89,37 +120,45 @@ final class AppModel: ObservableObject {
 
     @discardableResult
     func ensureConnected() async -> String? {
-        guard var device = pairedDevice else { return nil }
+        guard let device = pairedDevice else { return nil }
 
         if let usb = await ADB.usbDevices().first(where: { $0.isReady && device.matchesUSB($0.serial) }) {
-            if device.usbSerial != usb.serial {
-                device.usbSerial = usb.serial
-                save(device)
-            }
-            connection = .connected(serial: usb.serial)
-            return usb.serial
+            return await connected(to: usb.serial)
         }
         if case .connected(let serial) = connection, await ADB.isReady(serial) {
             return serial
         }
         connection = .connecting
-        guard device.supportsWiFi else {
-            connection = .failed(ConnectionProblem(ToolError.usbNotConnected))
-            return nil
-        }
+        Log.mirror.info("Procurando o Galaxy (cabo\(device.supportsWiFi ? " e Wi-Fi" : "", privacy: .public))")
 
         do {
-            let serial = try await ADB.waitForConnection(guid: device.guid, lastAddress: device.lastAddress)
-            if let address = ADBOutputParser.networkAddress(serial) {
-                device.lastAddress = address
-                save(device)
-            }
-            connection = .connected(serial: serial)
-            return serial
+            let serial = try await ADB.waitForConnection(
+                guid: device.guid,
+                lastAddress: device.lastAddress,
+                acceptsUSB: device.matchesUSB,
+                timeout: device.supportsWiFi ? 20 : 10
+            )
+            return await connected(to: serial)
         } catch {
-            connection = .failed(ConnectionProblem(error))
+            let problem = device.supportsWiFi ? error : ToolError.usbNotConnected
+            Log.mirror.error("Galaxy não encontrado: \(problem.localizedDescription, privacy: .public)")
+            connection = .failed(ConnectionProblem(problem))
             return nil
         }
+    }
+
+    private func connected(to serial: String) async -> String {
+        guard var device = pairedDevice else { return serial }
+        if ADBOutputParser.isUSBSerial(serial) {
+            if device.usbSerial != serial { device.usbSerial = serial }
+            if device.guid != nil { await ADB.enableWirelessDebugging(serial: serial) }
+        } else if let address = ADBOutputParser.networkAddress(serial) {
+            device.lastAddress = address
+        }
+        save(device)
+        Log.mirror.info("Conectado ao Galaxy por \(ADBOutputParser.isUSBSerial(serial) ? "cabo" : "Wi-Fi", privacy: .public): \(serial, privacy: .public)")
+        connection = .connected(serial: serial)
+        return serial
     }
 
     func startMirroring() {
@@ -155,6 +194,7 @@ final class AppModel: ObservableObject {
                     guard let reconnectDeadline, Date() < reconnectDeadline else { return }
                     attempt += 1
                 case .lost(let message):
+                    Log.mirror.error("Espelhamento caiu: \(message, privacy: .public)")
                     tearDownSession()
                     mirrorError = message
                     reconnectDeadline = Date().addingTimeInterval(Self.reconnectWindow)
@@ -165,6 +205,7 @@ final class AppModel: ObservableObject {
             } catch is CancellationError {
                 return
             } catch {
+                Log.mirror.error("Tentativa \(attempt + 1) falhou: \(error.localizedDescription, privacy: .public)")
                 tearDownSession()
                 attempt += 1
                 if let reconnectDeadline {
