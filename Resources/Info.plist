@@ -6,34 +6,34 @@
 	<string>pt-BR</string>
 	<key>CFBundleDisplayName</key>
 	<string>Galaxy Mirror</string>
-	<key>CFBundleName</key>
-	<string>Galaxy Mirror</string>
 	<key>CFBundleExecutable</key>
 	<string>GalaxyMirror</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.julianamarques.GalaxyMirror</string>
 	<key>CFBundleIconFile</key>
 	<string>AppIcon</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.julianamarques.GalaxyMirror</string>
+	<key>CFBundleName</key>
+	<string>Galaxy Mirror</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1.0</string>
+	<string>0.1.1</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>14.0</string>
+	<string>2</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
-	<key>NSHighResolutionCapable</key>
-	<true/>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>O Galaxy Mirror procura seu celular na rede Wi-Fi para conectar e espelhar a tela.</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>14.0</string>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_adb-tls-pairing._tcp</string>
 		<string>_adb-tls-connect._tcp</string>
 	</array>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>O Galaxy Mirror procura seu celular na rede Wi-Fi para conectar e espelhar a tela.</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
 </dict>
 </plist>
