@@ -42,6 +42,8 @@ struct DeviceView: View {
     private var statusLine: some View {
         if app.mirrorState == .starting {
             ProgressLabel("Iniciando o espelhamento…")
+        } else if app.mirrorState == .reconnecting {
+            ProgressLabel("Reconectando ao Galaxy…")
         } else if app.mirrorState == .running {
             Label("Espelhando. Feche a janela do Galaxy para encerrar.", systemImage: "rectangle.on.rectangle")
         } else {

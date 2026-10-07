@@ -107,7 +107,6 @@ final class MirrorSession {
         isStopped = true
         audioPlayer?.stop()
         connection.close()
-        displayLayer.flushAndRemoveImage()
         resumeFirstFrameWaiter(throwing: endMessage.map { ToolError.failed($0) } ?? CancellationError())
         endWaiter?.resume(returning: endMessage)
         endWaiter = nil

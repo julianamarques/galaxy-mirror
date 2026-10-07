@@ -4,21 +4,23 @@ import AppKit
 final class MirrorWindowController: NSWindowController, NSWindowDelegate {
     var onClose: (() -> Void)?
 
-    private let session: MirrorSession
-    private let mirrorView: MirrorView
+    private let container = NSView()
+    private let overlay = ReconnectingOverlay()
+    private var mirrorView: MirrorView?
+    private var pendingView: MirrorView?
 
-    init(session: MirrorSession, title: String, alwaysOnTop: Bool) {
-        self.session = session
-        mirrorView = MirrorView(session: session)
-
+    init(title: String, alwaysOnTop: Bool) {
         let window = NSWindow(
-            contentRect: NSRect(origin: .zero, size: Self.initialSize(for: session.videoSize)),
+            contentRect: NSRect(origin: .zero, size: Self.initialSize()),
             styleMask: [.titled, .closable, .miniaturizable, .resizable],
             backing: .buffered,
             defer: false
         )
         window.title = title
-        window.contentView = mirrorView
+        container.wantsLayer = true
+        window.contentView = container
+        overlay.frame = container.bounds
+        container.addSubview(overlay)
         window.level = alwaysOnTop ? .floating : .normal
         window.backgroundColor = .black
         window.isReleasedWhenClosed = false
@@ -28,16 +30,37 @@ final class MirrorWindowController: NSWindowController, NSWindowDelegate {
         window.delegate = self
         window.addTitlebarAccessoryViewController(navigationAccessory())
         if !window.setFrameUsingName("GalaxyMirrorWindow") { window.center() }
-        session.onVideoSizeChange = { [weak self] size in self?.videoSizeChanged(size) }
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) { nil }
 
-    func present() {
-        showWindow(nil)
+    func attach(_ session: MirrorSession) {
+        let view = MirrorView(session: session)
+        view.frame = container.bounds
+        view.autoresizingMask = [.width, .height]
+        pendingView?.removeFromSuperview()
+        container.addSubview(view, positioned: .below, relativeTo: mirrorView ?? overlay)
+        pendingView = view
+        session.onVideoSizeChange = { [weak self] size in self?.videoSizeChanged(size) }
+    }
+
+    func sessionDidStart() {
+        if let pendingView {
+            mirrorView?.removeFromSuperview()
+            mirrorView = pendingView
+            self.pendingView = nil
+        }
+        overlay.hide()
+        if window?.isVisible != true {
+            showWindow(nil)
+            NSApp.activate()
+        }
         window?.makeFirstResponder(mirrorView)
-        NSApp.activate()
+    }
+
+    func showReconnecting() {
+        overlay.show()
     }
 
     private func videoSizeChanged(_ size: CGSize) {
@@ -76,11 +99,10 @@ final class MirrorWindowController: NSWindowController, NSWindowDelegate {
         onClose?()
     }
 
-    private static func initialSize(for videoSize: CGSize) -> NSSize {
+    private static func initialSize() -> NSSize {
         let screen = NSScreen.main?.visibleFrame.size ?? NSSize(width: 1440, height: 900)
-        let video = videoSize.height > 0 ? videoSize : CGSize(width: 9, height: 19.5)
         return fittedContentSize(
-            for: video,
+            for: CGSize(width: 9, height: 19.5),
             longSide: screen.height * 0.8,
             maxSize: NSSize(width: screen.width * 0.9, height: screen.height * 0.9)
         )
@@ -113,7 +135,7 @@ final class MirrorWindowController: NSWindowController, NSWindowDelegate {
 
     @objc private func navigate(_ sender: NSButton) {
         if let keycode = AndroidKeycode(rawValue: Int32(sender.tag)) {
-            session.sendKey(keycode)
+            mirrorView?.session.sendKey(keycode)
         }
     }
 }

@@ -9,15 +9,25 @@ final class AppModel: ObservableObject {
         case failed(ConnectionProblem)
     }
 
-    enum MirrorState { case idle, starting, running }
+    enum MirrorState {
+        case idle, starting, running, reconnecting
+
+        var showsMirrorWindow: Bool { self == .running || self == .reconnecting }
+    }
+
+    private enum SessionEnd {
+        case stopped
+        case noDevice
+        case lost(String)
+    }
 
     @Published private(set) var pairedDevice: PairedDevice?
     @Published var showingSetup: Bool
     @Published private(set) var connection: Connection = .idle
     @Published private(set) var mirrorState: MirrorState = .idle {
         didSet {
-            if mirrorState == .running, oldValue != .running { hideMainWindows() }
-            if oldValue == .running, mirrorState != .running { showMainWindows() }
+            if mirrorState.showsMirrorWindow, !oldValue.showsMirrorWindow { hideMainWindows() }
+            if oldValue.showsMirrorWindow, !mirrorState.showsMirrorWindow { showMainWindows() }
         }
     }
     @Published private(set) var mirrorError: String?
@@ -29,6 +39,7 @@ final class AppModel: ObservableObject {
     private var mirrorWindow: MirrorWindowController?
     private var hiddenWindows: [NSWindow] = []
     private static let maxStartRetries = 2
+    private static let reconnectWindow: TimeInterval = 30
     private static let deviceKey = "pairedDevice"
 
     init() {
@@ -126,55 +137,83 @@ final class AppModel: ObservableObject {
         mirrorState = .starting
         defer {
             tearDownSession()
+            mirrorWindow?.closeWithoutNotifying()
+            mirrorWindow = nil
             mirrorState = .idle
             mirrorTask = nil
         }
 
-        for attempt in 0...Self.maxStartRetries {
+        var attempt = 0
+        var reconnectDeadline: Date?
+        while true {
             do {
-                if attempt > 0 { try await Task.sleep(for: .seconds(1)) }
-                if let message = try await runSession() {
+                if attempt > 0 { try await Task.sleep(for: .seconds(min(attempt, 4))) }
+                switch try await runSession() {
+                case .stopped:
+                    return
+                case .noDevice:
+                    guard let reconnectDeadline, Date() < reconnectDeadline else { return }
+                    attempt += 1
+                case .lost(let message):
+                    tearDownSession()
                     mirrorError = message
-                    connection = .idle
+                    reconnectDeadline = Date().addingTimeInterval(Self.reconnectWindow)
+                    attempt = 1
+                    mirrorState = .reconnecting
+                    mirrorWindow?.showReconnecting()
                 }
-                return
             } catch is CancellationError {
                 return
             } catch {
                 tearDownSession()
-                guard attempt == Self.maxStartRetries else { continue }
+                attempt += 1
+                if let reconnectDeadline {
+                    guard Date() >= reconnectDeadline else { continue }
+                    connection = .idle
+                    return
+                }
+                guard attempt > Self.maxStartRetries else { continue }
                 if case ToolError.mirrorTimeout = error {
                     connection = .failed(ConnectionProblem(error))
                 } else {
                     mirrorError = error.localizedDescription
                     connection = .idle
                 }
+                return
             }
         }
     }
 
-    private func runSession() async throws -> String? {
+    private func runSession() async throws -> SessionEnd {
         guard let connected = await ensureConnected(), let serial = await freshConnection(replacing: connected) else {
-            return nil
+            return .noDevice
         }
         try Task.checkCancellation()
 
         let options = MirrorOptions()
         let connection = try await ScrcpyServer.start(serial: serial, options: options)
         let session = MirrorSession(connection: connection)
-        let window = MirrorWindowController(session: session, title: deviceName, alwaysOnTop: options.alwaysOnTop)
-        window.onClose = { [weak self] in self?.stopMirroring() }
         self.session = session
-        mirrorWindow = window
+        let window = mirrorWindow ?? makeMirrorWindow(options: options)
+        window.attach(session)
         session.start()
 
         try await session.waitForFirstFrame(timeout: 12)
+        mirrorError = nil
         mirrorState = .running
-        window.present()
+        window.sessionDidStart()
         if options.turnScreenOff {
             session.send(.setDisplayPower(on: false))
         }
-        return await session.waitUntilEnded()
+        guard let message = await session.waitUntilEnded() else { return .stopped }
+        return .lost(message)
+    }
+
+    private func makeMirrorWindow(options: MirrorOptions) -> MirrorWindowController {
+        let window = MirrorWindowController(title: deviceName, alwaysOnTop: options.alwaysOnTop)
+        window.onClose = { [weak self] in self?.stopMirroring() }
+        mirrorWindow = window
+        return window
     }
 
     private func freshConnection(replacing serial: String) async -> String? {
@@ -187,8 +226,6 @@ final class AppModel: ObservableObject {
     private func tearDownSession() {
         session?.stop()
         session = nil
-        mirrorWindow?.closeWithoutNotifying()
-        mirrorWindow = nil
     }
 
     private func hideMainWindows() {
