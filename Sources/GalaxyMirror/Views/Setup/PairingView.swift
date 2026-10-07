@@ -48,7 +48,11 @@ struct PairingView: View {
                 "Toque em **Parear dispositivo com código QR** e aponte a câmera para o código acima.",
             ])
             .font(.body)
-            ProgressLabel("Aguardando o Galaxy na rede…").font(.callout)
+            if setup.isLocalNetworkDenied {
+                LocalNetworkWarning()
+            } else {
+                ProgressLabel("Aguardando o Galaxy na rede…").font(.callout)
+            }
         }
     }
 
@@ -83,7 +87,11 @@ struct PairingView: View {
                     .font(.callout)
                     .foregroundStyle(.green)
             } else {
-                ProgressLabel("Procurando… ou informe o endereço exibido no Galaxy:").font(.callout)
+                if setup.isLocalNetworkDenied {
+                    LocalNetworkWarning()
+                } else {
+                    ProgressLabel("Procurando… ou informe o endereço exibido no Galaxy:").font(.callout)
+                }
                 TextField("IP e porta, ex.: 192.168.0.10:37123", text: $setup.manualAddress)
                     .textFieldStyle(.roundedBorder)
                     .font(.body)

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct DeviceView: View {
     @EnvironmentObject private var app: AppModel
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         SetupPage(title: app.deviceName) {
@@ -19,6 +20,9 @@ struct DeviceView: View {
             if app.isMirroring {
                 PillButton("Parar", prominent: true) { app.stopMirroring() }
             } else {
+                if app.pairedDevice?.supportsWiFi == false {
+                    PillButton("Configurar Wi-Fi") { app.setUpWiFi() }
+                }
                 PillButton("Espelhar", prominent: true) { app.startMirroring() }
                     .disabled(app.connection == .connecting)
             }
@@ -62,6 +66,10 @@ struct DeviceView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(problem.title).foregroundStyle(.primary)
                     Text(problem.message)
+                    if problem.needsLocalNetworkPermission {
+                        Button("Abrir Ajustes de Rede Local") { openURL(Links.localNetworkSettings) }
+                            .buttonStyle(.link)
+                    }
                 }
             }
         }

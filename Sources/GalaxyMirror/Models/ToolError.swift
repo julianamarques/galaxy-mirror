@@ -8,6 +8,7 @@ enum ToolError: LocalizedError, Equatable {
     case differentNetwork(mac: String?, phone: String)
     case usbNotConnected
     case mirrorTimeout
+    case localNetworkDenied
 
     var errorDescription: String? {
         switch self {
@@ -18,6 +19,7 @@ enum ToolError: LocalizedError, Equatable {
         case .differentNetwork(_, let phone): "O Galaxy (\(phone)) está em outra rede."
         case .usbNotConnected: "O Galaxy não está conectado por cabo USB."
         case .mirrorTimeout: "O Galaxy não começou a enviar a imagem."
+        case .localNetworkDenied: "O macOS não permitiu que o Galaxy Mirror acesse a rede local."
         }
     }
 }

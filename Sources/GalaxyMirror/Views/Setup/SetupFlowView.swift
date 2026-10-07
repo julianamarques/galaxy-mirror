@@ -72,15 +72,15 @@ struct SetupFlowView: View {
         } content: {
             NumberedSteps(steps: [
                 "Abra **Configurações › Sobre o telefone › Informações do software** e toque 7 vezes em **Número de compilação**.",
-                "Volte para **Configurações › Opções do desenvolvedor** e ative a **Depuração sem fio**.",
-                "Conecte o Galaxy à mesma rede Wi-Fi deste Mac.",
+                "Volte para **Configurações › Opções do desenvolvedor** e ative a **Depuração sem fio** — ou a **Depuração USB**, se for usar o cabo.",
+                "Conecte o Galaxy à mesma rede Wi-Fi deste Mac ou ao Mac com um cabo USB.",
             ])
             .font(.body)
         } buttons: {
             PillButton("Saiba Mais…") { openURL(Links.learnMore) }
             Spacer()
-            PillButton("Voltar") { setup.cancel() }
-            PillButton("Continuar", prominent: true) { setup.beginPairing() }
+            PillButton("Usar Cabo USB") { setup.beginUSB() }
+            PillButton("Usar Wi-Fi", prominent: true) { setup.beginPairing() }
         }
     }
 
@@ -129,7 +129,9 @@ struct SetupFlowView: View {
                 }
             }
         } buttons: {
-            if problem.suggestsUSB {
+            if problem.needsLocalNetworkPermission {
+                PillButton("Abrir Ajustes") { openURL(Links.localNetworkSettings) }
+            } else if problem.suggestsUSB {
                 PillButton("Usar Cabo USB") { setup.beginUSB() }
             } else {
                 PillButton("Saiba Mais…") { openURL(Links.learnMore) }

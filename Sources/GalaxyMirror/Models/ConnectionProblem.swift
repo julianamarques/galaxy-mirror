@@ -5,6 +5,7 @@ struct ConnectionProblem: Equatable {
     let message: String
     let detail: String?
     let suggestsUSB: Bool
+    var needsLocalNetworkPermission = false
 
     init(_ error: Error) {
         switch error as? ToolError {
@@ -20,10 +21,16 @@ struct ConnectionProblem: Equatable {
             detail = nil
             suggestsUSB = true
         case .usbNotConnected:
-            title = "Conecte o Galaxy pelo cabo USB"
-            message = "Este Galaxy foi configurado por cabo. Conecte-o ao Mac com um cabo USB e verifique se a Depuração USB está ativada nas Opções do desenvolvedor."
+            title = "O Galaxy não está conectado"
+            message = "Este Galaxy foi configurado só pelo cabo. Conecte-o ao Mac com um cabo USB ou clique em Configurar Wi-Fi para usá-lo também sem fio."
             detail = nil
             suggestsUSB = false
+        case .localNetworkDenied:
+            title = "Permita o acesso à Rede Local"
+            message = "O macOS está impedindo o Galaxy Mirror de encontrar o Galaxy pelo Wi-Fi. Em Ajustes do Sistema › Privacidade e Segurança › Rede Local, ative o Galaxy Mirror."
+            detail = nil
+            suggestsUSB = false
+            needsLocalNetworkPermission = true
         case .mirrorTimeout:
             title = "O Galaxy não enviou a imagem"
             message = "A conexão Wi-Fi com o celular está perdendo muitos dados. Aproxime o Galaxy do roteador, desligue o Ponto de acesso móvel dele ou conecte um cabo USB e tente de novo."

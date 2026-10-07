@@ -97,8 +97,17 @@ final class AppModel: ObservableObject {
     }
 
     func didPair(_ device: PairedDevice, serial: String) {
+        var device = device
+        if device.usbSerial == nil, let usbSerial = pairedDevice?.usbSerial, device.matchesUSB(usbSerial) {
+            device.usbSerial = usbSerial
+        }
         save(device)
         connection = .connected(serial: serial)
+    }
+
+    func setUpWiFi() {
+        setup.beginPairing()
+        showingSetup = true
     }
 
     func finishSetup(startMirroring start: Bool) {

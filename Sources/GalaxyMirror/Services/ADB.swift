@@ -95,7 +95,7 @@ enum ADB {
                 return ready.serial
             }
 
-            let service = guid == nil && host == nil ? nil : await Bonjour.services(ofType: MDNSService.connectType).first { service in
+            let service = guid == nil && host == nil ? nil : try await Bonjour.services(ofType: MDNSService.connectType).first { service in
                 if let guid { return service.name == guid }
                 return service.host == host
             }

@@ -18,6 +18,21 @@ struct ConnectionProblemTests {
         #expect(problem.suggestsUSB)
     }
 
+    @Test func offersWiFiSetupWhenUSBIsMissing() {
+        let problem = ConnectionProblem(ToolError.usbNotConnected)
+
+        #expect(problem.title == "O Galaxy não está conectado")
+        #expect(problem.message.contains("Configurar Wi-Fi"))
+    }
+
+    @Test func asksForLocalNetworkPermission() {
+        let problem = ConnectionProblem(ToolError.localNetworkDenied)
+
+        #expect(problem.needsLocalNetworkPermission)
+        #expect(problem.message.contains("Rede Local"))
+        #expect(!ConnectionProblem(ToolError.timeout).needsLocalNetworkPermission)
+    }
+
     @Test func keepsTechnicalDetailForGenericErrors() {
         let problem = ConnectionProblem(ToolError.timeout)
 

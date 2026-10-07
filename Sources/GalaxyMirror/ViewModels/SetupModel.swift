@@ -36,6 +36,7 @@ final class SetupModel: ObservableObject {
     @Published private(set) var isPairing = false
     @Published private(set) var codeError: String?
     @Published private(set) var usbStatus: USBStatus = .waiting
+    @Published private(set) var isLocalNetworkDenied = false
 
     private(set) var qrName = ""
     private(set) var qrPassword = ""
@@ -97,6 +98,9 @@ final class SetupModel: ObservableObject {
     func cancel() {
         stopTask()
         step = .welcome
+        if app.pairedDevice != nil {
+            app.finishSetup(startMirroring: false)
+        }
     }
 
     func reset() {
@@ -122,7 +126,15 @@ final class SetupModel: ObservableObject {
         task = Task { [weak self] in
             while !Task.isCancelled {
                 guard let self, self.step == .pair else { return }
-                let services = await Bonjour.services(ofType: MDNSService.pairingType)
+                let services: [MDNSService]
+                do {
+                    services = try await Bonjour.services(ofType: MDNSService.pairingType)
+                    if self.isLocalNetworkDenied { self.isLocalNetworkDenied = false }
+                } catch {
+                    if !self.isLocalNetworkDenied { self.isLocalNetworkDenied = true }
+                    try? await Task.sleep(for: .seconds(2))
+                    continue
+                }
                 let discovered = services.filter { $0.name != self.qrName }
                 if discovered != self.discovered { self.discovered = discovered }
                 if !discovered.contains(where: { $0.address == self.selectedAddress }) {

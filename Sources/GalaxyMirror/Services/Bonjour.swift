@@ -3,10 +3,15 @@ import dnssd
 import Foundation
 
 enum Bonjour {
-    static func services(ofType type: String, browseTime: TimeInterval = 3) async -> [MDNSService] {
-        await withCheckedContinuation { continuation in
+    static func services(ofType type: String, browseTime: TimeInterval = 3) async throws -> [MDNSService] {
+        try await withCheckedThrowingContinuation { continuation in
             DispatchQueue.global(qos: .userInitiated).async {
-                let services = browse(type, duration: browseTime).compactMap { name -> MDNSService? in
+                let result = browse(type, duration: browseTime)
+                guard !result.isDenied else {
+                    continuation.resume(throwing: ToolError.localNetworkDenied)
+                    return
+                }
+                let services = result.names.compactMap { name -> MDNSService? in
                     guard let target = resolve(name, type), let ip = ipv4Address(of: target.host) else { return nil }
                     return MDNSService(name: name, type: type, address: "\(ip):\(target.port)")
                 }
@@ -18,6 +23,7 @@ enum Bonjour {
     private final class BrowseResult {
         var names: [String] = []
         var isComplete = false
+        var isDenied = false
     }
 
     private final class ResolveResult {
@@ -25,14 +31,20 @@ enum Bonjour {
         var port: UInt16 = 0
     }
 
-    private static func browse(_ type: String, duration: TimeInterval) -> [String] {
+    private static func browse(_ type: String, duration: TimeInterval) -> BrowseResult {
         let result = BrowseResult()
         var reference: DNSServiceRef?
         let status = DNSServiceBrowse(
             &reference, 0, 0, type, "local.",
             { _, flags, _, error, name, _, _, context in
-                guard error == kDNSServiceErr_NoError, let name, let context else { return }
+                guard let context else { return }
                 let result = Unmanaged<BrowseResult>.fromOpaque(context).takeUnretainedValue()
+                if error == kDNSServiceErr_PolicyDenied {
+                    result.isDenied = true
+                    result.isComplete = true
+                    return
+                }
+                guard error == kDNSServiceErr_NoError, let name else { return }
                 let value = String(cString: name)
                 if flags & DNSServiceFlags(kDNSServiceFlagsAdd) != 0 {
                     if !result.names.contains(value) { result.names.append(value) }
@@ -43,11 +55,12 @@ enum Bonjour {
             },
             Unmanaged.passUnretained(result).toOpaque()
         )
-        guard status == kDNSServiceErr_NoError, let reference else { return [] }
+        result.isDenied = status == kDNSServiceErr_PolicyDenied
+        guard status == kDNSServiceErr_NoError, let reference else { return result }
         defer { DNSServiceRefDeallocate(reference) }
 
         process(reference, until: Date().addingTimeInterval(duration)) { result.isComplete }
-        return result.names
+        return result
     }
 
     private static func resolve(_ name: String, _ type: String) -> (host: String, port: UInt16)? {
