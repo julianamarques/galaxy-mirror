@@ -1,0 +1,20 @@
+Galaxy Mirror
+Copyright 2026 Juliana Marques
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This product includes third-party components:
+
+scrcpy-server 5.0 (https://github.com/Genymobile/scrcpy)
+Copyright (C) 2018 Genymobile
+Copyright (C) 2018-2026 Romain Vimont
+Licensed under the Apache License, Version 2.0 (see scrcpy-LICENSE.txt).
+
+adb 37.0.1, from the Android SDK Platform-Tools
+(https://developer.android.com/tools/releases/platform-tools)
+Copyright Google LLC and The Android Open Source Project.
+License notices are included in adb-NOTICE.txt.
+
+The Android robot is reproduced or modified from work created and shared
+by Google and used according to terms described in the Creative Commons
+3.0 Attribution License (https://creativecommons.org/licenses/by/3.0/).

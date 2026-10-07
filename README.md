@@ -67,6 +67,10 @@ scripts/          build do .app e do .dmg, download do servidor e do adb, geraç
 - Apps com conteúdo protegido (bancos, streaming) aparecem com tela preta.
 - A janela de espelhamento é a do scrcpy; um renderizador nativo (VideoToolbox + Metal) é um próximo passo possível.
 
+## Licença
+
+O Galaxy Mirror é distribuído sob a [licença Apache 2.0](LICENSE). Os créditos e as licenças de terceiros estão em [NOTICE](NOTICE) e acompanham o app em `Contents/Resources/`.
+
 ## Créditos
 
 O robô do Android no ícone é reproduzido ou modificado a partir de trabalho criado e compartilhado pelo Google, usado de acordo com os termos da [licença Creative Commons 3.0 Attribution](https://creativecommons.org/licenses/by/3.0/). O servidor de espelhamento é o do [scrcpy](https://github.com/Genymobile/scrcpy), da Genymobile, sob a licença Apache 2.0. O `adb` incluído no app é o do Android SDK Platform-Tools, do Google; os avisos de licença vão em `Contents/Resources/adb-NOTICE.txt`.
