@@ -15,6 +15,18 @@ O app cuida do pareamento (por QR code ou código de seis dígitos), da conexão
 
 O app já traz o `adb` e o servidor do scrcpy; não é preciso instalar mais nada.
 
+## Aparelhos testados
+
+Até agora, o app foi testado apenas com os seguintes celulares:
+
+| Celular | Android |
+| --- | --- |
+| Galaxy S25 | 16 |
+| Galaxy A05s | 15 |
+| Galaxy A54 | 16 |
+
+Outros aparelhos com Android 11 ou posterior devem funcionar, mas não foram testados. Se você usar o app com outro modelo, conte como foi abrindo uma issue.
+
 ## Instalar
 
 1. Baixe o `Galaxy-Mirror.dmg` da versão mais recente na [página de Releases](https://github.com/julianamarques/galaxy-mirror/releases).
