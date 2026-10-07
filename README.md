@@ -24,7 +24,15 @@ O app é assinado apenas localmente. Em outro Mac, o macOS bloqueia a primeira a
 ./scripts/make-dmg.sh           # gera build/Galaxy Mirror.dmg
 ```
 
-Os dois scripts baixam o `adb` (`scripts/fetch-adb.sh`, platform-tools 37.0.1) e o servidor do scrcpy (`scripts/fetch-server.sh`) com checksum conferido.
+Para publicar uma nova versão no GitHub (requer o `gh` logado):
+
+```bash
+DRY_RUN=1 ./scripts/release.sh 0.2.0-beta.1   # mostra as notas sem alterar nada
+./scripts/release.sh 0.2.0-beta.1             # pré-lançamento (alpha, beta ou rc)
+./scripts/release.sh 1.0.0                    # versão estável
+```
+
+Os scripts de build baixam o `adb` (`scripts/fetch-adb.sh`, platform-tools 37.0.1) e o servidor do scrcpy (`scripts/fetch-server.sh`) com checksum conferido.
 
 Para desenvolvimento, `swift run` também funciona, e `swift test` roda os testes. Em builds de debug, `GALAXY_STEP=pair` (ou `prepare`, `code`, `connecting`, `failed`, `done`, `missing`) abre direto numa etapa da configuração.
 
