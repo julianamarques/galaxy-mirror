@@ -59,13 +59,13 @@ scripts/          build do .app e do .dmg, download do servidor e do adb, geraç
 3. **Conectar** — o app aguarda o serviço `_adb-tls-connect._tcp` do celular e executa `adb connect`. O identificador do aparelho fica salvo para reconectar automaticamente, mesmo quando a porta muda.
 4. **Cabo USB (alternativa)** — sem Wi-Fi em comum, o app também conecta pelo cabo com a Depuração USB. Um Galaxy pareado por Wi-Fi passa a usar o cabo automaticamente quando ele está conectado.
 5. **Espelhar** — o app envia o servidor ao celular, abre os sockets de vídeo, áudio e controle por um túnel do adb e mostra o vídeo numa janela própria. Clique e arraste para tocar, use a rolagem do trackpad, digite pelo teclado (inclusive acentos), clique com o botão direito para voltar e use os botões Voltar, Início e Recentes da barra de título. A área de transferência é sincronizada nos dois sentidos (⌘V cola no celular).
+6. **Reconectar** — se a conexão cair durante o uso, a janela continua aberta com o aviso "Reconectando…" e o app tenta de novo por até 30 segundos, inclusive passando do cabo para o Wi-Fi. Enquanto o app está aberto, o status acompanha em tempo real se o celular está no cabo, no Wi-Fi ou desconectado.
 
 ## Limitações
 
 - A Depuração sem fio exige que o Mac e o celular estejam na mesma rede Wi-Fi; pelo hotspot do próprio celular ela não funciona (o app detecta e sugere o cabo USB).
-- A Depuração sem fio do Android desliga após reiniciar o celular ou trocar de rede; é preciso reativá-la (o pareamento continua válido).
+- A Depuração sem fio do Android pode desligar após reiniciar o celular ou trocar de rede. O pareamento continua válido: basta reativá-la no celular ou conectar o cabo USB uma vez, que o app a liga sozinho.
 - Apps com conteúdo protegido (bancos, streaming) aparecem com tela preta.
-- A janela de espelhamento é a do scrcpy; um renderizador nativo (VideoToolbox + Metal) é um próximo passo possível.
 
 ## Contribuindo
 
