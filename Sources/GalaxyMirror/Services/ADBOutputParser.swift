@@ -25,6 +25,14 @@ enum ADBOutputParser {
             }
     }
 
+    static func isPushed(_ output: String) -> Bool {
+        output.contains("pushed")
+    }
+
+    static func forwardedPort(_ output: String) -> UInt16? {
+        UInt16(output.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+
     static func isPaired(_ output: String) -> Bool {
         output.contains("Successfully paired")
     }

@@ -9,21 +9,25 @@ final class AppModel: ObservableObject {
         case failed(ConnectionProblem)
     }
 
+    enum MirrorState { case idle, starting, running }
+
     @Published private(set) var pairedDevice: PairedDevice?
     @Published var showingSetup: Bool
     @Published private(set) var connection: Connection = .idle
-    enum MirrorState { case idle, starting, running }
-
-    @Published private(set) var mirrorState: MirrorState = .idle
+    @Published private(set) var mirrorState: MirrorState = .idle {
+        didSet {
+            if mirrorState == .running, oldValue != .running { hideMainWindows() }
+            if oldValue == .running, mirrorState != .running { showMainWindows() }
+        }
+    }
     @Published private(set) var mirrorError: String?
 
     lazy var setup = SetupModel(app: self)
 
-    private var mirrorProcess: Process?
-    private var startupTask: Task<Void, Never>?
-    private var stoppedByUser = false
-    private var startupTimedOut = false
-    private var startAttempt = 0
+    private var mirrorTask: Task<Void, Never>?
+    private var session: MirrorSession?
+    private var mirrorWindow: MirrorWindowController?
+    private var hiddenWindows: [NSWindow] = []
     private static let maxStartRetries = 2
     private static let deviceKey = "pairedDevice"
 
@@ -43,7 +47,7 @@ final class AppModel: ObservableObject {
             await ADB.startServer()
             guard pairedDevice != nil, !showingSetup else { return }
             if UserDefaults.standard.bool(forKey: SettingsKey.autoStart) {
-                await startMirroring()
+                startMirroring()
             } else {
                 await ensureConnected()
             }
@@ -57,7 +61,7 @@ final class AppModel: ObservableObject {
 
     func finishSetup(startMirroring start: Bool) {
         showingSetup = false
-        if start { Task { await startMirroring() } }
+        if start { startMirroring() }
     }
 
     func forget() {
@@ -107,33 +111,70 @@ final class AppModel: ObservableObject {
         }
     }
 
-    func startMirroring() async {
-        guard !isMirroring else { return }
+    func startMirroring() {
+        guard mirrorTask == nil else { return }
         mirrorError = nil
-        startAttempt = 0
-        stoppedByUser = false
-        await launchMirror()
+        mirrorTask = Task { await runMirror() }
     }
 
-    private func launchMirror() async {
-        startupTimedOut = false
+    func stopMirroring() {
+        mirrorTask?.cancel()
+        session?.stop()
+    }
+
+    private func runMirror() async {
         mirrorState = .starting
-        guard let connected = await ensureConnected(), let serial = await freshConnection(replacing: connected),
-              !stoppedByUser
-        else {
+        defer {
+            tearDownSession()
             mirrorState = .idle
-            return
+            mirrorTask = nil
         }
 
-        do {
-            mirrorProcess = try Scrcpy.launch(serial: serial, title: deviceName) { [weak self] failure in
-                Task { @MainActor in self?.mirrorEnded(failure: failure) }
+        for attempt in 0...Self.maxStartRetries {
+            do {
+                if attempt > 0 { try await Task.sleep(for: .seconds(1)) }
+                if let message = try await runSession() {
+                    mirrorError = message
+                    connection = .idle
+                }
+                return
+            } catch is CancellationError {
+                return
+            } catch {
+                tearDownSession()
+                guard attempt == Self.maxStartRetries else { continue }
+                if case ToolError.mirrorTimeout = error {
+                    connection = .failed(ConnectionProblem(error))
+                } else {
+                    mirrorError = error.localizedDescription
+                    connection = .idle
+                }
             }
-            startupTask = Task { await waitForFirstFrame() }
-        } catch {
-            mirrorState = .idle
-            mirrorError = error.localizedDescription
         }
+    }
+
+    private func runSession() async throws -> String? {
+        guard let connected = await ensureConnected(), let serial = await freshConnection(replacing: connected) else {
+            return nil
+        }
+        try Task.checkCancellation()
+
+        let options = MirrorOptions()
+        let connection = try await ScrcpyServer.start(serial: serial, options: options)
+        let session = MirrorSession(connection: connection)
+        let window = MirrorWindowController(session: session, title: deviceName, alwaysOnTop: options.alwaysOnTop)
+        window.onClose = { [weak self] in self?.stopMirroring() }
+        self.session = session
+        mirrorWindow = window
+        session.start()
+
+        try await session.waitForFirstFrame(timeout: 12)
+        mirrorState = .running
+        window.present()
+        if options.turnScreenOff {
+            session.send(.setDisplayPower(on: false))
+        }
+        return await session.waitUntilEnded()
     }
 
     private func freshConnection(replacing serial: String) async -> String? {
@@ -143,56 +184,21 @@ final class AppModel: ObservableObject {
         return await ensureConnected()
     }
 
-    private func waitForFirstFrame() async {
-        guard let process = mirrorProcess else { return }
-        let streaming = await Scrcpy.waitUntilStreaming(process, timeout: 12)
-        guard mirrorState == .starting, process.isRunning else { return }
-        if streaming {
-            mirrorState = .running
-            NSApp.hide(nil)
-        } else {
-            startupTimedOut = true
-            process.terminate()
-        }
+    private func tearDownSession() {
+        session?.stop()
+        session = nil
+        mirrorWindow?.closeWithoutNotifying()
+        mirrorWindow = nil
     }
 
-    func stopMirroring() {
-        stoppedByUser = true
-        startupTask?.cancel()
-        guard let process = mirrorProcess, process.isRunning else {
-            mirrorState = .idle
-            return
-        }
-        process.terminate()
+    private func hideMainWindows() {
+        hiddenWindows = NSApp.windows.filter { $0.isVisible && $0 !== mirrorWindow?.window && $0.canBecomeMain }
+        hiddenWindows.forEach { $0.orderOut(nil) }
     }
 
-    private func mirrorEnded(failure: String?) {
-        startupTask?.cancel()
-        mirrorProcess = nil
-        let wasStarting = mirrorState == .starting
-
-        if wasStarting, !stoppedByUser, startupTimedOut || failure != nil, startAttempt < Self.maxStartRetries {
-            startAttempt += 1
-            Task {
-                try? await Task.sleep(for: .seconds(1))
-                guard !stoppedByUser else { return }
-                await launchMirror()
-            }
-            return
-        }
-
-        if !wasStarting {
-            NSApp.unhide(nil)
-            NSApp.activate()
-        }
-        mirrorState = .idle
-
-        if startupTimedOut {
-            connection = .failed(ConnectionProblem(ToolError.mirrorTimeout))
-        } else if let failure, !stoppedByUser {
-            mirrorError = failure
-            connection = .idle
-        }
+    private func showMainWindows() {
+        hiddenWindows.forEach { $0.makeKeyAndOrderFront(nil) }
+        hiddenWindows = []
     }
 
     private func save(_ device: PairedDevice) {

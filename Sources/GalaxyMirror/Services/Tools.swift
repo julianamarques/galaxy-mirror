@@ -26,16 +26,22 @@ enum Tools {
     }
 
     static var isInstalled: Bool {
-        find("adb") != nil && find("scrcpy") != nil
+        find("adb") != nil
     }
 
-    static func makeProcess(_ executable: URL, _ arguments: [String], environment extra: [String: String] = [:]) -> Process {
+    static func makeProcess(_ executable: URL, _ arguments: [String]) -> Process {
         let process = Process()
         process.executableURL = executable
         process.arguments = arguments
-        process.environment = environment.merging(extra) { $1 }
+        process.environment = environment
         process.standardInput = FileHandle.nullDevice
         return process
+    }
+
+    static func terminate(_ process: Process, after delay: TimeInterval) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + delay) {
+            if process.isRunning { process.terminate() }
+        }
     }
 
     static func run(
@@ -79,9 +85,7 @@ enum Tools {
                 continuation.resume(throwing: error)
                 return
             }
-            DispatchQueue.global().asyncAfter(deadline: .now() + timeout) {
-                if process.isRunning { process.terminate() }
-            }
+            terminate(process, after: timeout)
         }
     }
 

@@ -40,7 +40,7 @@ struct SetupFlowView: View {
             MirrorIllustration()
         } content: {
             VStack(alignment: .leading, spacing: 10) {
-                Text("O Espelhamento do Galaxy usa o adb e o scrcpy para se comunicar com o celular. Instale-os pelo Homebrew no Terminal:")
+                Text("O Espelhamento do Galaxy usa o adb, das ferramentas do Android, para se comunicar com o celular. Instale-o pelo Homebrew no Terminal:")
                 HStack {
                     Text(installCommand)
                         .font(.system(.body, design: .monospaced))
@@ -64,7 +64,7 @@ struct SetupFlowView: View {
         }
     }
 
-    private var installCommand: String { "brew install scrcpy android-platform-tools" }
+    private var installCommand: String { "brew install android-platform-tools" }
 
     private var prepare: some View {
         SetupPage(title: "Prepare seu Galaxy") {

@@ -29,6 +29,25 @@ enum ADB {
         return ADBOutputParser.pairingGUID(result.output)
     }
 
+    static func push(_ file: URL, to path: String, serial: String) async throws {
+        let result = try await run(["-s", serial, "push", file.path, path], timeout: 30)
+        guard ADBOutputParser.isPushed(result.output) else {
+            throw ToolError.failed(["Não foi possível enviar o servidor de espelhamento ao Galaxy.", result.output].joined(separator: "\n"))
+        }
+    }
+
+    static func forward(_ remote: String, serial: String) async throws -> UInt16 {
+        let result = try await run(["-s", serial, "forward", "tcp:0", remote], timeout: 10)
+        guard let port = ADBOutputParser.forwardedPort(result.stdout) else {
+            throw ToolError.failed(["Não foi possível abrir o túnel com o Galaxy.", result.output].joined(separator: "\n"))
+        }
+        return port
+    }
+
+    static func removeForward(port: UInt16, serial: String) async {
+        _ = try? await run(["-s", serial, "forward", "--remove", "tcp:\(port)"], timeout: 5)
+    }
+
     static func connect(address: String) async {
         _ = try? await run(["connect", address], timeout: 12)
     }

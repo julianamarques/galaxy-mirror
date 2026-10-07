@@ -19,7 +19,7 @@ struct DeviceView: View {
             if app.isMirroring {
                 PillButton("Parar", prominent: true) { app.stopMirroring() }
             } else {
-                PillButton("Espelhar", prominent: true) { Task { await app.startMirroring() } }
+                PillButton("Espelhar", prominent: true) { app.startMirroring() }
                     .disabled(app.connection == .connecting)
             }
         }

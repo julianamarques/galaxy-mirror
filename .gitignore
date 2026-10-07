@@ -3,3 +3,5 @@ build/
 .swiftpm/
 *.xcodeproj/xcuserdata/
 .DS_Store
+Resources/scrcpy-server
+Resources/scrcpy-server.download

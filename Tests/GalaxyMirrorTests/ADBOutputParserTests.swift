@@ -41,6 +41,13 @@ struct ADBOutputParserTests {
         #expect(!ADBOutputParser.isUSBSerial("adb-R5CX123-AbCdEf._adb-tls-connect._tcp"))
     }
 
+    @Test func parsesPushAndForwardOutput() {
+        #expect(ADBOutputParser.isPushed("scrcpy-server: 1 file pushed, 0 skipped. 30.0 MB/s (733974 bytes in 0.023s)"))
+        #expect(!ADBOutputParser.isPushed("adb: error: failed to copy"))
+        #expect(ADBOutputParser.forwardedPort("53214\n") == 53214)
+        #expect(ADBOutputParser.forwardedPort("error: cannot bind listener") == nil)
+    }
+
     @Test func extractsHost() {
         #expect(ADBOutputParser.host(of: "192.168.0.10:41235") == "192.168.0.10")
         #expect(ADBOutputParser.host(of: "192.168.0.10") == "192.168.0.10")

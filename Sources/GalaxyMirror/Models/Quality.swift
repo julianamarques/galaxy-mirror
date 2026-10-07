@@ -23,12 +23,12 @@ enum Quality: String, CaseIterable, Identifiable {
         }
     }
 
-    var bitRate: String {
+    var bitRate: Int {
         switch self {
-        case .max: "16M"
-        case .high: "12M"
-        case .medium: "8M"
-        case .low: "4M"
+        case .max: 16_000_000
+        case .high: 12_000_000
+        case .medium: 8_000_000
+        case .low: 4_000_000
         }
     }
 }

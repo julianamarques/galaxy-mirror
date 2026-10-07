@@ -2,12 +2,12 @@
 
 Espelhe e controle um celular Samsung Galaxy (ou qualquer Android 11+) no macOS, sem fio — com uma configuração guiada no estilo do Espelhamento do iPhone.
 
-O app cuida do pareamento (por QR code ou código de seis dígitos), da descoberta do celular na rede e da reconexão automática. A transmissão de vídeo, áudio e controle é feita pelo [scrcpy](https://github.com/Genymobile/scrcpy).
+O app cuida do pareamento (por QR code ou código de seis dígitos), da descoberta do celular na rede e da reconexão automática. O espelhamento é nativo: o app envia ao celular o servidor do [scrcpy](https://github.com/Genymobile/scrcpy) (versão fixa, 5.0), recebe o vídeo e o áudio pelo protocolo dele e exibe tudo numa janela própria, com decodificação por hardware (VideoToolbox) e controle por mouse, trackpad e teclado.
 
 ## Requisitos
 
 - macOS 14 ou posterior
-- `adb` e `scrcpy`: `brew install scrcpy android-platform-tools`
+- `adb`: `brew install android-platform-tools`
 - Celular com Android 11+ na mesma rede Wi-Fi do Mac
 
 ## Compilar
@@ -25,13 +25,14 @@ Para desenvolvimento, `swift run` também funciona, e `swift test` roda os teste
 Sources/GalaxyMirror/
 ├── App/          ponto de entrada (GalaxyMirrorApp, AppDelegate)
 ├── Models/       tipos de dados (PairedDevice, MDNSService, Quality, Codec, SettingsKey…)
-├── Services/     integração com adb e scrcpy (ADB, ADBOutputParser, Scrcpy, MirrorArguments, Tools)
+├── Services/     integração com adb (ADB, Bonjour, LocalNetwork, Tools)
+│   └── Mirror/   cliente nativo do protocolo do scrcpy (servidor, sockets, vídeo, áudio, controle)
 ├── ViewModels/   estado observável (AppModel, SetupModel)
-├── Views/        telas SwiftUI (Setup, Device, Settings) e componentes reutilizáveis
+├── Views/        telas SwiftUI (Setup, Device, Settings), janela de espelhamento (Mirror) e componentes
 └── Extensions/   extensões de tipos do sistema
 Tests/GalaxyMirrorTests/
-Resources/        Info.plist e ícone usados ao empacotar o .app
-scripts/          build do .app e geração do ícone
+Resources/        Info.plist, ícone e scrcpy-server (baixado com checksum por scripts/fetch-server.sh)
+scripts/          build do .app, download do servidor e geração do ícone
 ```
 
 ## Como funciona
@@ -40,7 +41,7 @@ scripts/          build do .app e geração do ícone
 2. **Parear** — o app mostra um QR code no mesmo formato do Android Studio (`WIFI:T:ADB;S:<nome>;P:<senha>;;`). Ao escaneá-lo, o celular anuncia `_adb-tls-pairing._tcp` via mDNS e o app executa `adb pair`.
 3. **Conectar** — o app aguarda o serviço `_adb-tls-connect._tcp` do celular e executa `adb connect`. O identificador do aparelho fica salvo para reconectar automaticamente, mesmo quando a porta muda.
 4. **Cabo USB (alternativa)** — sem Wi-Fi em comum, o app também conecta pelo cabo com a Depuração USB. Um Galaxy pareado por Wi-Fi passa a usar o cabo automaticamente quando ele está conectado.
-5. **Espelhar** — o `scrcpy` é aberto com as opções escolhidas em Ajustes (qualidade, codec, áudio, apagar a tela do celular etc.).
+5. **Espelhar** — o app envia o servidor ao celular, abre os sockets de vídeo, áudio e controle por um túnel do adb e mostra o vídeo numa janela própria. Clique e arraste para tocar, use a rolagem do trackpad, digite pelo teclado (inclusive acentos), clique com o botão direito para voltar e use os botões Voltar, Início e Recentes da barra de título. A área de transferência é sincronizada nos dois sentidos (⌘V cola no celular).
 
 ## Limitações
 
