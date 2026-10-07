@@ -1,8 +1,8 @@
 # Galaxy Mirror
 
-Espelhe e controle um celular Samsung Galaxy (ou qualquer Android 11+) no macOS, sem fio — com uma configuração guiada no estilo do Espelhamento do iPhone.
+Espelhe e controle um celular Samsung Galaxy (ou qualquer Android 11+) no macOS, por Wi-Fi ou cabo USB — com uma configuração guiada no estilo do Espelhamento do iPhone.
 
-O app cuida do pareamento (por QR code ou código de seis dígitos), da descoberta do celular na rede e da reconexão automática. O espelhamento é nativo: o app envia ao celular o servidor do [scrcpy](https://github.com/Genymobile/scrcpy) (versão fixa, 5.0), recebe o vídeo e o áudio pelo protocolo dele e exibe tudo numa janela própria, com decodificação por hardware (VideoToolbox) e controle por mouse, trackpad e teclado.
+O app cuida do pareamento (por QR code ou código de seis dígitos), da conexão por Wi-Fi ou cabo USB e da reconexão automática. O espelhamento é nativo: o app envia ao celular o servidor do [scrcpy](https://github.com/Genymobile/scrcpy) (versão fixa, 5.0), recebe o vídeo e o áudio pelo protocolo dele e exibe tudo numa janela própria, com decodificação por hardware (VideoToolbox) e controle por mouse, trackpad e teclado.
 
 ## Requisitos
 
