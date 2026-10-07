@@ -26,7 +26,7 @@ struct SetupFlowView: View {
         SetupPage(title: "Galaxy Mirror") {
             MirrorIllustration()
         } content: {
-            Text("Use seu Galaxy diretamente do Mac. Veja a tela, abra seus apps e digite com o teclado do Mac — tudo sem fio, pela sua rede Wi-Fi.")
+            Text("Use seu Galaxy diretamente do Mac. Veja a tela, abra seus apps e digite com o teclado do Mac — pela sua rede Wi-Fi ou com um cabo USB.")
         } buttons: {
             PillButton("Saiba Mais…") { openURL(Links.learnMore) }
             Spacer()
