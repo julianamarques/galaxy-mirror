@@ -10,10 +10,13 @@ BIN=".build/$CONFIG/GalaxyMirror"
 
 [ -f Resources/AppIcon.icns ] || swift scripts/make-icon.swift
 ./scripts/fetch-server.sh
+./scripts/fetch-adb.sh
 
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp "$BIN" "$APP/Contents/MacOS/GalaxyMirror"
+cp Resources/adb "$APP/Contents/MacOS/adb"
+cp Resources/adb-NOTICE.txt "$APP/Contents/Resources/adb-NOTICE.txt"
 cp Resources/Info.plist "$APP/Contents/Info.plist"
 cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
 cp Resources/scrcpy-server "$APP/Contents/Resources/scrcpy-server"

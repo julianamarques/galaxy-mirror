@@ -15,7 +15,11 @@ enum Tools {
     }()
 
     static func find(_ name: String) -> URL? {
-        searchPaths
+        if let bundled = Bundle.main.url(forAuxiliaryExecutable: name),
+           FileManager.default.isExecutableFile(atPath: bundled.path) {
+            return bundled
+        }
+        return searchPaths
             .map { URL(fileURLWithPath: $0).appendingPathComponent(name) }
             .first { FileManager.default.isExecutableFile(atPath: $0.path) }
     }

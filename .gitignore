@@ -4,4 +4,7 @@ build/
 *.xcodeproj/xcuserdata/
 .DS_Store
 Resources/scrcpy-server
+Resources/adb
+Resources/adb-NOTICE.txt
+Resources/adb.version
 Resources/scrcpy-server.download

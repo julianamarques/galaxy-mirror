@@ -7,15 +7,24 @@ O app cuida do pareamento (por QR code ou código de seis dígitos), da descober
 ## Requisitos
 
 - macOS 14 ou posterior
-- `adb`: `brew install android-platform-tools`
-- Celular com Android 11+ na mesma rede Wi-Fi do Mac
+- Celular com Android 11+ na mesma rede Wi-Fi do Mac (ou conectado por cabo USB)
+
+O app já traz o `adb` e o servidor do scrcpy; não é preciso instalar mais nada.
+
+## Instalar
+
+Abra o `Galaxy Mirror.dmg` e arraste o **Galaxy Mirror** para **Aplicativos**.
+
+O app é assinado apenas localmente. Em outro Mac, o macOS bloqueia a primeira abertura com "não é possível verificar o desenvolvedor": libere em **Ajustes do Sistema › Privacidade e Segurança › Abrir Mesmo Assim**.
 
 ## Compilar
 
 ```bash
 ./scripts/build-app.sh          # gera build/Galaxy Mirror.app
-open "build/Galaxy Mirror.app"
+./scripts/make-dmg.sh           # gera build/Galaxy Mirror.dmg
 ```
+
+Os dois scripts baixam o `adb` (`scripts/fetch-adb.sh`, platform-tools 37.0.1) e o servidor do scrcpy (`scripts/fetch-server.sh`) com checksum conferido.
 
 Para desenvolvimento, `swift run` também funciona, e `swift test` roda os testes. Em builds de debug, `GALAXY_STEP=pair` (ou `prepare`, `code`, `connecting`, `failed`, `done`, `missing`) abre direto numa etapa da configuração.
 
@@ -31,8 +40,8 @@ Sources/GalaxyMirror/
 ├── Views/        telas SwiftUI (Setup, Device, Settings), janela de espelhamento (Mirror) e componentes
 └── Extensions/   extensões de tipos do sistema
 Tests/GalaxyMirrorTests/
-Resources/        Info.plist, ícone e scrcpy-server (baixado com checksum por scripts/fetch-server.sh)
-scripts/          build do .app, download do servidor e geração do ícone
+Resources/        Info.plist, ícone, scrcpy-server e adb (baixados com checksum pelos scripts)
+scripts/          build do .app e do .dmg, download do servidor e do adb, geração do ícone
 ```
 
 ## Como funciona
@@ -52,4 +61,4 @@ scripts/          build do .app, download do servidor e geração do ícone
 
 ## Créditos
 
-O robô do Android no ícone é reproduzido ou modificado a partir de trabalho criado e compartilhado pelo Google, usado de acordo com os termos da [licença Creative Commons 3.0 Attribution](https://creativecommons.org/licenses/by/3.0/). O servidor de espelhamento é o do [scrcpy](https://github.com/Genymobile/scrcpy), da Genymobile, sob a licença Apache 2.0.
+O robô do Android no ícone é reproduzido ou modificado a partir de trabalho criado e compartilhado pelo Google, usado de acordo com os termos da [licença Creative Commons 3.0 Attribution](https://creativecommons.org/licenses/by/3.0/). O servidor de espelhamento é o do [scrcpy](https://github.com/Genymobile/scrcpy), da Genymobile, sob a licença Apache 2.0. O `adb` incluído no app é o do Android SDK Platform-Tools, do Google; os avisos de licença vão em `Contents/Resources/adb-NOTICE.txt`.
