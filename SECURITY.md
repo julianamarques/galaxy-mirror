@@ -52,7 +52,8 @@ Fora do escopo (reporte diretamente aos projetos de origem):
 
 - Vulnerabilidades no servidor do scrcpy:
   [Genymobile/scrcpy](https://github.com/Genymobile/scrcpy).
-- Vulnerabilidades no `adb` ou no Android:
+- Vulnerabilidades no `adb` ou no Android, incluindo a falta de verificação
+  da identidade do celular em conexões sem fio:
   [Android Security](https://source.android.com/docs/security/overview/updates-resources).
 - Ataques que exigem acesso físico ao Mac desbloqueado ou ao celular
   desbloqueado.
@@ -69,9 +70,15 @@ Fora do escopo (reporte diretamente aos projetos de origem):
   Depuração sem fio automaticamente, para permitir a troca do cabo para o
   Wi-Fi. Desligue-a nas Opções do desenvolvedor quando estiver em redes que
   não são de sua confiança.
-- Use o espelhamento sem fio apenas em redes confiáveis. A conexão do `adb` é
-  criptografada, mas o celular fica visível na rede enquanto a Depuração sem
-  fio estiver ativa.
+- O modo Wi-Fi confia na rede local, assim como o próprio `adb`. A conexão é
+  criptografada, mas o `adb` não confere a identidade do celular nas conexões
+  sem fio: outro aparelho na mesma rede poderia se passar pelo seu Galaxy. Se
+  isso acontecesse, ele poderia ver o que você digita na janela de
+  espelhamento, receber o que você cola nela, alterar a área de transferência
+  do Mac e mostrar uma tela falsa. Use o espelhamento sem fio apenas em redes
+  confiáveis (como a da sua casa) e prefira o cabo USB em redes públicas ou
+  compartilhadas. O celular também fica visível na rede enquanto a Depuração
+  sem fio estiver ativa.
 - A área de transferência é sincronizada entre o Mac e o celular durante o
   espelhamento: evite copiar senhas ou dados sensíveis nesse período se não
   quiser que passem para o outro aparelho.
