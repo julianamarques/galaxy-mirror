@@ -64,10 +64,14 @@ enum Scrcpy {
     static func waitUntilStreaming(_ process: Process, timeout: TimeInterval) async -> Bool {
         let deadline = Date().addingTimeInterval(timeout)
         while Date() < deadline, !Task.isCancelled, process.isRunning {
-            if let text = try? String(contentsOf: log, encoding: .utf8), text.contains("Texture:") { return true }
+            if let text = try? String(contentsOf: log, encoding: .utf8), hasFirstFrame(inLog: text) { return true }
             try? await Task.sleep(for: .milliseconds(300))
         }
         return false
+    }
+
+    static func hasFirstFrame(inLog text: String) -> Bool {
+        text.range(of: #"INFO: Texture[^:\n]*: \d+x\d+"#, options: .regularExpression) != nil
     }
 
     private static func errorSummary() -> String {
