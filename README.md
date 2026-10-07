@@ -17,7 +17,8 @@ O app já traz o `adb` e o servidor do scrcpy; não é preciso instalar mais nad
 
 ## Instalar
 
-Abra o `Galaxy Mirror.dmg` e arraste o **Galaxy Mirror** para **Aplicativos**.
+1. Baixe o `Galaxy-Mirror.dmg` da versão mais recente na [página de Releases](https://github.com/julianamarques/galaxy-mirror/releases).
+2. Abra o arquivo e arraste o **Galaxy Mirror** para **Aplicativos**.
 
 O app é assinado apenas localmente. Em outro Mac, o macOS bloqueia a primeira abertura com "não é possível verificar o desenvolvedor": libere em **Ajustes do Sistema › Privacidade e Segurança › Abrir Mesmo Assim**.
 
