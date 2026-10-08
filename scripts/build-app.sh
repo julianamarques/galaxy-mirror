@@ -15,6 +15,9 @@ BIN=".build/$CONFIG/GalaxyMirror"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp "$BIN" "$APP/Contents/MacOS/GalaxyMirror"
+MIN_MACOS="$(/usr/libexec/PlistBuddy -c "Print :LSMinimumSystemVersion" Resources/Info.plist)"
+xcrun vtool -set-build-version macos "$MIN_MACOS" "$(xcrun --show-sdk-version)" -replace \
+    -output "$APP/Contents/MacOS/GalaxyMirror" "$APP/Contents/MacOS/GalaxyMirror" 2>/dev/null
 cp Resources/adb "$APP/Contents/MacOS/adb"
 cp Resources/adb-NOTICE.txt "$APP/Contents/Resources/adb-NOTICE.txt"
 cp LICENSE NOTICE Resources/licenses/scrcpy-LICENSE.txt "$APP/Contents/Resources/"
