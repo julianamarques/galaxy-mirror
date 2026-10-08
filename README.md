@@ -32,6 +32,8 @@ Outros aparelhos com Android 11 ou posterior devem funcionar, mas não foram tes
 1. Baixe o `Galaxy-Mirror.dmg` da versão mais recente na [página de Releases](https://github.com/julianamarques/galaxy-mirror/releases).
 2. Abra o arquivo e arraste o **Galaxy Mirror** para **Aplicativos**.
 
+O app avisa quando há uma versão nova. Em **Galaxy Mirror › Verificar Atualizações…** você verifica na hora, e em **Ajustes › Atualizações** escolhe se a verificação é automática (ao abrir o app e uma vez por dia) ou só manual.
+
 O app é assinado apenas localmente. Em outro Mac, o macOS bloqueia a primeira abertura com "não é possível verificar o desenvolvedor": libere em **Ajustes do Sistema › Privacidade e Segurança › Abrir Mesmo Assim**.
 
 ## Compilar

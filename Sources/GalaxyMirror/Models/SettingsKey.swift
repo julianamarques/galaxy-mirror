@@ -10,6 +10,9 @@ enum SettingsKey {
     static let lockOnClose = "lockOnClose"
     static let autoStart = "autoStart"
     static let virtualDisplay = "virtualDisplay"
+    static let autoCheckUpdates = "autoCheckUpdates"
+    static let lastUpdateCheck = "lastUpdateCheck"
+    static let skippedUpdateVersion = "skippedUpdateVersion"
 
     enum Default {
         static let quality = Quality.high
@@ -21,6 +24,7 @@ enum SettingsKey {
         static let lockOnClose = false
         static let autoStart = true
         static let virtualDisplay = false
+        static let autoCheckUpdates = true
     }
 
     static var defaults: [String: Any] {
@@ -34,6 +38,7 @@ enum SettingsKey {
             lockOnClose: Default.lockOnClose,
             autoStart: Default.autoStart,
             virtualDisplay: Default.virtualDisplay,
+            autoCheckUpdates: Default.autoCheckUpdates,
         ]
     }
 

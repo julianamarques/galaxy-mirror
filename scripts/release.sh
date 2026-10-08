@@ -48,7 +48,7 @@ if [ "$DRY_RUN" = "1" ]; then
     exit 0
 fi
 
-/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $APP_VERSION" -c "Set :CFBundleVersion $BUILD" "$PLIST"
+/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $APP_VERSION" -c "Set :CFBundleVersion $BUILD" -c "Set :GalaxyMirrorReleaseVersion $VERSION" "$PLIST"
 git commit -q -m "chore: release $TAG" "$PLIST"
 git push -q origin main
 

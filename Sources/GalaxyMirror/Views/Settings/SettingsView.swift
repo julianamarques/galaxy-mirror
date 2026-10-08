@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject private var app: AppModel
+    @EnvironmentObject private var updates: UpdateModel
 
     @AppStorage(SettingsKey.quality) private var quality = SettingsKey.Default.quality
     @AppStorage(SettingsKey.codec) private var codec = SettingsKey.Default.codec
@@ -12,6 +13,7 @@ struct SettingsView: View {
     @AppStorage(SettingsKey.lockOnClose) private var lockOnClose = SettingsKey.Default.lockOnClose
     @AppStorage(SettingsKey.autoStart) private var autoStart = SettingsKey.Default.autoStart
     @AppStorage(SettingsKey.virtualDisplay) private var virtualDisplay = SettingsKey.Default.virtualDisplay
+    @AppStorage(SettingsKey.autoCheckUpdates) private var autoCheckUpdates = SettingsKey.Default.autoCheckUpdates
 
     var body: some View {
         Form {
@@ -50,6 +52,30 @@ struct SettingsView: View {
                 }
                 Button("Esquecer este Galaxy…", role: .destructive) { app.forget() }
                     .disabled(app.pairedDevice == nil)
+            }
+
+            Section {
+                Toggle("Verificar atualizações automaticamente", isOn: $autoCheckUpdates)
+                LabeledContent("Versão instalada", value: updates.currentVersion)
+                LabeledContent("Última verificação") {
+                    if let lastCheck = updates.lastCheck {
+                        Text(lastCheck, format: .dateTime.day().month().hour().minute())
+                    } else {
+                        Text("Nunca")
+                    }
+                }
+                HStack {
+                    Button("Verificar Agora") { updates.checkNow() }
+                        .disabled(updates.isChecking)
+                    if updates.isChecking {
+                        ProgressView().controlSize(.small)
+                    }
+                }
+            } header: {
+                Text("Atualizações")
+            } footer: {
+                Text("No modo automático, o app verifica ao abrir e uma vez por dia. As novas versões são baixadas da página de Releases no GitHub.")
+                    .foregroundStyle(.secondary)
             }
         }
         .formStyle(.grouped)

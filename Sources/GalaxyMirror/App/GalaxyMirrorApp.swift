@@ -12,9 +12,16 @@ struct GalaxyMirrorApp: App {
         }
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
+        .commands {
+            CommandGroup(after: .appInfo) {
+                Button("Verificar Atualizações…") { delegate.updates.checkNow() }
+            }
+        }
 
         Settings {
-            SettingsView().environmentObject(delegate.app)
+            SettingsView()
+                .environmentObject(delegate.app)
+                .environmentObject(delegate.updates)
         }
     }
 }
