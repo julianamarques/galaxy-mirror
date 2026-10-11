@@ -1,22 +1,22 @@
-# Como Contribuir?
+# How to Contribute
 
-Obrigado pelo interesse em contribuir com o Galaxy Mirror. Este guia descreve o fluxo recomendado para propor correções, melhorias e ajustes de documentação.
+Thank you for your interest in contributing to Galaxy Mirror. This guide describes the recommended workflow for proposing fixes, improvements and documentation changes.
 
-## Fluxo de Trabalho
+## Workflow
 
-- Faça um fork do repositório e clone o projeto.
-- Crie uma branch a partir da branch principal.
-- Use nomes de branch objetivos, como `feature/nome-da-feature` ou
-  `fix/descricao-do-ajuste`.
-- Consulte o `README.md` para compilar, empacotar e rodar o app localmente.
-- Mantenha pull requests pequenos e focados em uma mudança principal.
-- Explique no pull request o problema resolvido, a solução aplicada e como a
-  alteração foi validada.
+- Fork the repository and clone the project.
+- Create a branch from the main branch.
+- Use descriptive branch names, such as `feature/feature-name` or
+  `fix/short-description`.
+- See `README.md` to build, package and run the app locally.
+- Keep pull requests small and focused on one main change.
+- In the pull request, explain the problem solved, the solution applied and how
+  the change was validated.
 
 ## Commits
 
-Escreva as mensagens em inglês, curtas, no imperativo e com um prefixo que
-indique o tipo da mudança ([Conventional Commits](https://www.conventionalcommits.org/)):
+Write messages in English, short, in the imperative mood and with a prefix that
+indicates the type of change ([Conventional Commits](https://www.conventionalcommits.org/)):
 
 ```text
 feat: add keyboard shortcut to rotate the phone
@@ -28,30 +28,34 @@ build: bump the bundled scrcpy server
 chore: release v0.2.0-beta.1
 ```
 
-## Padrões de Código
+## Code Standards
 
-- Siga a organização existente em `App`, `Models`, `Services`,
-  `Services/Mirror`, `ViewModels`, `Views` e `Extensions`.
-- Mantenha um tipo por arquivo, com o arquivo nomeado como o tipo; extensões
-  ficam em `Extensions/` no formato `Tipo+Assunto.swift`.
-- Não adicione comentários no código: prefira nomes claros, funções pequenas e
-  tipos explícitos.
-- O projeto usa o modo de linguagem Swift 6, com verificação estrita de
-  concorrência. Não introduza avisos de compilação.
-- Lógica que não depende de interface ou de dispositivo (parsing da saída do
-  `adb`, protocolo do scrcpy, cálculos de tamanho) deve ficar em funções puras,
-  com testes.
-- Textos exibidos ao usuário são em português do Brasil.
-- Não inclua no controle de versão os binários baixados pelos scripts
-  (`Resources/adb`, `Resources/scrcpy-server`) nem credenciais ou dados
-  pessoais.
-- Ao atualizar o servidor do scrcpy, altere juntos a versão em
-  `ScrcpyProtocol.serverVersion` e o checksum em `scripts/fetch-server.sh`, e
-  revise o protocolo (o formato pode mudar entre versões).
+- Follow the existing organization in `App`, `Models`, `Services`,
+  `Services/Mirror`, `ViewModels`, `Views` and `Extensions`.
+- Keep one type per file, with the file named after the type; extensions go
+  in `Extensions/` in the `Type+Topic.swift` format.
+- Do not add comments to the code: prefer clear names, small functions and
+  explicit types.
+- The project uses the Swift 6 language mode, with strict concurrency
+  checking. Do not introduce compiler warnings.
+- Logic that does not depend on the UI or on a device (parsing `adb` output,
+  the scrcpy protocol, size calculations) should live in pure functions, with
+  tests.
+- User-facing strings are written in Brazilian Portuguese in the code and
+  translated to English in `Resources/Localizable.xcstrings`. After adding or
+  changing strings, run `scripts/sync-strings.sh` and fill in the translation;
+  `swift test` fails while any string is untranslated or has placeholders
+  that differ from the original.
+- Do not commit the binaries downloaded by the scripts
+  (`Resources/adb`, `Resources/scrcpy-server`), credentials or personal
+  data.
+- When updating the scrcpy server, change the version in
+  `ScrcpyProtocol.serverVersion` and the checksum in `scripts/fetch-server.sh`
+  together, and review the protocol (the format may change between versions).
 
-## Validação
+## Validation
 
-Antes de abrir um pull request, rode as verificações aplicáveis:
+Before opening a pull request, run the applicable checks:
 
 ```sh
 swift build
@@ -59,38 +63,40 @@ swift test
 ./scripts/build-app.sh
 ```
 
-Também revise se:
+Also check that:
 
-- A alteração está limitada ao escopo proposto.
-- A compilação não gera avisos e todos os testes passam.
-- Novas regras possuem testes quando aplicável.
-- O app foi testado com um celular de verdade quando a mudança afeta conexão,
-  espelhamento ou controle (cabo USB e Wi-Fi, quando possível).
-- Nenhuma credencial, token ou dado pessoal foi versionado.
-- A documentação foi atualizada quando a alteração muda o uso do projeto.
+- The change is limited to the proposed scope.
+- The build has no warnings and all tests pass.
+- New rules have tests when applicable.
+- New strings show up correctly in Portuguese and in English.
+- The app was tested with a real phone when the change affects connection,
+  mirroring or control (USB cable and Wi-Fi, when possible).
+- No credentials, tokens or personal data were committed.
+- The documentation was updated when the change affects how the project is
+  used.
 
 ## Pull Requests
 
-Ao abrir um pull request, inclua:
+When opening a pull request, include:
 
-- Um resumo curto da alteração.
-- O motivo da mudança.
-- Os comandos executados para validação.
-- O celular, a versão do Android, a versão do macOS e o tipo de conexão
-  usados nos testes manuais.
-- Observações sobre impactos de compatibilidade, se existirem.
+- A short summary of the change.
+- The reason for the change.
+- The commands run for validation.
+- The phone, Android version, macOS version and type of connection used in
+  manual testing.
+- Notes on compatibility impacts, if any.
 
 ## Issues
 
-Ao abrir uma issue, informe:
+When opening an issue, include:
 
-- Descrição clara do problema ou melhoria.
-- Passos para reproduzir, quando for um bug.
-- Comportamento esperado e comportamento atual.
-- Versão do Galaxy Mirror, modelo do celular, versão do Android e do One UI,
-  versão do macOS e se o Mac é Apple Silicon ou Intel.
-- Tipo de conexão: cabo USB, Wi-Fi ou ambos.
-- Logs relevantes, que podem ser obtidos com:
+- A clear description of the problem or improvement.
+- Steps to reproduce, for a bug.
+- Expected behavior and current behavior.
+- The Galaxy Mirror version, phone model, Android and One UI versions,
+  macOS version and whether the Mac is Apple Silicon or Intel.
+- The type of connection: USB cable, Wi-Fi or both.
+- Relevant logs, which can be collected with:
 
 ```sh
 /usr/bin/log show --last 10m --predicate 'subsystem == "com.julianamarques.GalaxyMirror"' --info

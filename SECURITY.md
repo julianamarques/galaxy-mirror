@@ -1,85 +1,82 @@
-# Política de Segurança
+# Security Policy
 
-## Versões Suportadas
+## Supported Versions
 
-O Galaxy Mirror está em beta. Apenas a versão mais recente publicada em
-[Releases](https://github.com/julianamarques/galaxy-mirror/releases) recebe
-correções de segurança.
+Galaxy Mirror is in beta. Only the latest version published on
+[Releases](https://github.com/julianamarques/galaxy-mirror/releases) receives
+security fixes.
 
-| Versão                 | Suportada |
+| Version                | Supported |
 | ---------------------- | --------- |
-| Mais recente (0.1.x)   | Sim       |
-| Anteriores             | Não       |
+| Latest (0.1.x)         | Yes       |
+| Earlier                | No        |
 
-## Como Reportar uma Vulnerabilidade
+## Reporting a Vulnerability
 
-Não abra uma issue pública para relatar vulnerabilidades.
+Do not open a public issue to report vulnerabilities.
 
-Use o reporte privado do GitHub: na aba **Security** do repositório, clique em
-**Report a vulnerability**. O relato fica visível apenas para a mantenedora até
-que uma correção seja publicada.
+Use GitHub's private reporting: in the repository's **Security** tab, click
+**Report a vulnerability**. The report is visible only to the maintainer until
+a fix is published.
 
-Inclua, sempre que possível:
+Whenever possible, include:
 
-- Descrição do problema e do impacto.
-- Passos para reproduzir ou uma prova de conceito.
-- Versão do Galaxy Mirror, versão do macOS, modelo do celular e versão do
-  Android.
-- Tipo de conexão envolvido: cabo USB, Wi-Fi ou ambos.
-- Sugestão de correção, se houver.
+- A description of the problem and its impact.
+- Steps to reproduce or a proof of concept.
+- The Galaxy Mirror version, macOS version, phone model and Android
+  version.
+- The type of connection involved: USB cable, Wi-Fi or both.
+- A suggested fix, if any.
 
-## O Que Esperar
+## What to Expect
 
-- Confirmação do recebimento em até 7 dias.
-- Avaliação inicial e retorno sobre a gravidade em até 14 dias.
-- Correção publicada em uma nova versão, com crédito a quem reportou, se
-  desejado.
+- Acknowledgment of the report within 7 days.
+- An initial assessment and feedback on severity within 14 days.
+- A fix published in a new version, crediting the reporter if they wish.
 
-Por ser um projeto mantido por uma pessoa, os prazos podem variar; o relato
-será acompanhado até a conclusão.
+Since the project is maintained by one person, these timelines may vary; the
+report will be followed through to the end.
 
-## Escopo
+## Scope
 
-Estão no escopo:
+In scope:
 
-- O código do app: pareamento, descoberta na rede, conexão por cabo e Wi-Fi,
-  implementação do protocolo do scrcpy, envio de toques e teclas e
-  sincronização da área de transferência.
-- Os scripts de build e empacotamento, incluindo a verificação de checksum
-  dos componentes baixados.
+- The app's code: pairing, network discovery, cable and Wi-Fi connections,
+  the scrcpy protocol implementation, sending touches and keys, and clipboard
+  syncing.
+- The build and packaging scripts, including the checksum verification of
+  downloaded components.
 
-Fora do escopo (reporte diretamente aos projetos de origem):
+Out of scope (report directly to the upstream projects):
 
-- Vulnerabilidades no servidor do scrcpy:
+- Vulnerabilities in the scrcpy server:
   [Genymobile/scrcpy](https://github.com/Genymobile/scrcpy).
-- Vulnerabilidades no `adb` ou no Android, incluindo a falta de verificação
-  da identidade do celular em conexões sem fio:
+- Vulnerabilities in `adb` or Android, including the lack of verification of
+  the phone's identity on wireless connections:
   [Android Security](https://source.android.com/docs/security/overview/updates-resources).
-- Ataques que exigem acesso físico ao Mac desbloqueado ou ao celular
-  desbloqueado.
-- O aviso do Gatekeeper na primeira abertura, causado pela assinatura local do
-  app (comportamento conhecido e documentado no README).
+- Attacks that require physical access to the unlocked Mac or the unlocked
+  phone.
+- The Gatekeeper warning on first launch, caused by the app's local signature
+  (known behavior, documented in the README).
 
-## Considerações de Segurança para Usuários
+## Security Considerations for Users
 
-- A Depuração USB e a Depuração sem fio do Android dão ao computador pareado
-  controle total do celular. Pareie apenas Macs de sua confiança e revogue os
-  que não usa mais em **Opções do desenvolvedor › Depuração sem fio ›
-  Dispositivos pareados**.
-- Ao espelhar pelo cabo um celular que já foi pareado por Wi-Fi, o app liga a
-  Depuração sem fio automaticamente, para permitir a troca do cabo para o
-  Wi-Fi. Desligue-a nas Opções do desenvolvedor quando estiver em redes que
-  não são de sua confiança.
-- O modo Wi-Fi confia na rede local, assim como o próprio `adb`. A conexão é
-  criptografada, mas o `adb` não confere a identidade do celular nas conexões
-  sem fio: outro aparelho na mesma rede poderia se passar pelo seu Galaxy. Se
-  isso acontecesse, ele poderia ver o que você digita na janela de
-  espelhamento, receber o que você cola nela, alterar a área de transferência
-  do Mac e mostrar uma tela falsa. Use o espelhamento sem fio apenas em redes
-  confiáveis (como a da sua casa) e prefira o cabo USB em redes públicas ou
-  compartilhadas. O celular também fica visível na rede enquanto a Depuração
-  sem fio estiver ativa.
-- A área de transferência é sincronizada entre o Mac e o celular durante o
-  espelhamento: evite copiar senhas ou dados sensíveis nesse período se não
-  quiser que passem para o outro aparelho.
-- Baixe o app apenas pela página de Releases deste repositório.
+- Android's USB debugging and Wireless debugging give the paired computer full
+  control of the phone. Pair only Macs you trust and revoke the ones you no
+  longer use in **Developer options › Wireless debugging › Paired devices**.
+- When mirroring over the cable a phone that was already paired over Wi-Fi,
+  the app turns on Wireless debugging automatically, so it can switch from the
+  cable to Wi-Fi. Turn it off in Developer options when you are on networks you
+  do not trust.
+- Wi-Fi mode trusts the local network, just like `adb` itself. The connection
+  is encrypted, but `adb` does not check the phone's identity on wireless
+  connections: another device on the same network could impersonate your
+  Galaxy. If that happened, it could see what you type in the mirror window,
+  receive what you paste into it, change the Mac's clipboard and show a fake
+  screen. Use wireless mirroring only on trusted networks (such as your home
+  network) and prefer the USB cable on public or shared networks. The phone
+  is also visible on the network while Wireless debugging is on.
+- The clipboard is synced between the Mac and the phone while mirroring: avoid
+  copying passwords or sensitive data during that time if you do not want them
+  to reach the other device.
+- Download the app only from this repository's Releases page.

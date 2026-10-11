@@ -1,118 +1,118 @@
 # Galaxy Mirror
 
-Espelhe e controle um celular Samsung Galaxy (ou qualquer Android 11+) no macOS, por Wi-Fi ou cabo USB — com uma configuração guiada no estilo do Espelhamento do iPhone.
+Mirror and control a Samsung Galaxy phone (or any Android 11+) on macOS, over Wi-Fi or a USB cable — with a guided setup in the style of iPhone Mirroring.
 
-O app cuida do pareamento (por QR code ou código de seis dígitos), da conexão por Wi-Fi ou cabo USB e da reconexão automática. O espelhamento é nativo: o app envia ao celular o servidor do [scrcpy](https://github.com/Genymobile/scrcpy) (versão fixa, 5.0), recebe o vídeo e o áudio pelo protocolo dele e exibe tudo numa janela própria, com decodificação por hardware (VideoToolbox) e controle por mouse, trackpad e teclado.
+The app takes care of pairing (with a QR code or a six-digit code), connecting over Wi-Fi or a USB cable, and reconnecting automatically. Mirroring is native: the app sends the [scrcpy](https://github.com/Genymobile/scrcpy) server (pinned version, 5.0) to the phone, receives video and audio through its protocol and shows everything in its own window, with hardware decoding (VideoToolbox) and control with the mouse, trackpad and keyboard.
 
 <p align="center">
-  <img src="docs/images/tela-inicial.png" width="560" alt="Tela inicial do Galaxy Mirror, com a ilustração de um Mac espelhando um Galaxy e os botões Saiba Mais, Agora Não e Continuar">
+  <img src="docs/images/welcome-screen.png" width="560" alt="Galaxy Mirror welcome screen, with an illustration of a Mac mirroring a Galaxy and the Learn More, Not Now and Continue buttons">
 </p>
 
-## Requisitos
+## Requirements
 
-- macOS 14 ou posterior
-- Celular com Android 11+ na mesma rede Wi-Fi do Mac (ou conectado por cabo USB)
+- macOS 14 or later
+- A phone with Android 11+ on the same Wi-Fi network as the Mac (or connected with a USB cable)
 
-O app já traz o `adb` e o servidor do scrcpy; não é preciso instalar mais nada.
+The app already includes `adb` and the scrcpy server; there is nothing else to install.
 
-## Idiomas
+## Languages
 
-| | Idioma |
+| | Language |
 |---|---|
-| 🇧🇷 | Português do Brasil |
-| 🇺🇸 | Inglês |
+| 🇺🇸 | English |
+| 🇧🇷 | Brazilian Portuguese |
 
-O app segue o idioma do macOS; nos demais idiomas, aparece em inglês.
+The app follows the macOS language; any other language falls back to English.
 
-## Aparelhos testados
+## Tested devices
 
-Até agora, o app foi testado apenas com os seguintes celulares:
+So far, the app has only been tested with the following phones:
 
-| Celular | Android |
+| Phone | Android |
 | --- | --- |
 | Galaxy S25 | 16 |
 | Galaxy A05s | 15 |
 | Galaxy A54 | 16 |
 
-Outros aparelhos com Android 11 ou posterior devem funcionar, mas não foram testados. Se você usar o app com outro modelo, conte como foi abrindo uma issue.
+Other devices with Android 11 or later should work, but have not been tested. If you use the app with another model, let us know how it went by opening an issue.
 
-## Instalar
+## Install
 
-1. Baixe o `Galaxy-Mirror.dmg` da versão mais recente na [página de Releases](https://github.com/julianamarques/galaxy-mirror/releases).
-2. Abra o arquivo e arraste o **Galaxy Mirror** para **Aplicativos**.
+1. Download `Galaxy-Mirror.dmg` from the latest version on the [Releases page](https://github.com/julianamarques/galaxy-mirror/releases).
+2. Open the file and drag **Galaxy Mirror** to **Applications**.
 
-O app avisa quando há uma versão nova. Em **Galaxy Mirror › Verificar Atualizações…** você verifica na hora, e em **Ajustes › Atualizações** escolhe se a verificação é automática (ao abrir o app e uma vez por dia) ou só manual.
+The app tells you when a new version is out. **Galaxy Mirror › Check for Updates…** checks right away, and **Settings › Updates** chooses whether checks are automatic (when the app opens and once a day) or manual only.
 
-O app é assinado apenas localmente. Em outro Mac, o macOS bloqueia a primeira abertura com "não é possível verificar o desenvolvedor": libere em **Ajustes do Sistema › Privacidade e Segurança › Abrir Mesmo Assim**.
+The app is only signed locally. On another Mac, macOS blocks the first launch saying it cannot verify the developer: allow it in **System Settings › Privacy & Security › Open Anyway**.
 
-## Compilar
-
-```bash
-./scripts/build-app.sh          # gera build/Galaxy Mirror.app
-./scripts/make-dmg.sh           # gera build/Galaxy Mirror.dmg
-```
-
-Para publicar uma nova versão no GitHub (requer o `gh` logado):
+## Build
 
 ```bash
-DRY_RUN=1 ./scripts/release.sh 0.2.0-beta.1   # mostra as notas sem alterar nada
-./scripts/release.sh 0.2.0-beta.1             # pré-lançamento (alpha, beta ou rc)
-./scripts/release.sh 1.0.0                    # versão estável
+./scripts/build-app.sh          # builds build/Galaxy Mirror.app
+./scripts/make-dmg.sh           # builds build/Galaxy Mirror.dmg
 ```
 
-Os scripts de build baixam o `adb` (`scripts/fetch-adb.sh`, platform-tools 37.0.1) e o servidor do scrcpy (`scripts/fetch-server.sh`) com checksum conferido.
-
-Para desenvolvimento, `swift run` também funciona, e `swift test` roda os testes. Em builds de debug, `GALAXY_STEP=pair` (ou `prepare`, `code`, `connecting`, `failed`, `done`, `missing`) abre direto numa etapa da configuração.
-
-## Traduções
-
-Os textos ficam em português no código, e as traduções em `Resources/Localizable.xcstrings` (String Catalog, que pode ser editado no Xcode). O texto do pedido de acesso à Rede Local fica em `Resources/InfoPlist.xcstrings`. Depois de adicionar ou alterar textos, rode:
+To publish a new version on GitHub (requires a logged-in `gh`):
 
 ```bash
-./scripts/sync-strings.sh   # extrai os textos do código e atualiza o catálogo
+DRY_RUN=1 ./scripts/release.sh 0.2.0-beta.1   # shows the notes without changing anything
+./scripts/release.sh 0.2.0-beta.1             # pre-release (alpha, beta or rc)
+./scripts/release.sh 1.0.0                    # stable version
 ```
 
-Os textos novos aparecem sem tradução no catálogo, e o `swift test` falha até que todos tenham a versão em inglês, com os mesmos marcadores (`%@`, `%lld`) do original.
+The build scripts download `adb` (`scripts/fetch-adb.sh`, platform-tools 37.0.1) and the scrcpy server (`scripts/fetch-server.sh`) and check their checksums.
 
-## Estrutura
+For development, `swift run` also works, and `swift test` runs the tests. In debug builds, `GALAXY_STEP=pair` (or `prepare`, `code`, `connecting`, `failed`, `done`, `missing`) opens straight into a setup step.
+
+## Translations
+
+Strings are written in Portuguese in the code, and the translations live in `Resources/Localizable.xcstrings` (a String Catalog, which can be edited in Xcode). The Local Network permission text lives in `Resources/InfoPlist.xcstrings`. After adding or changing strings, run:
+
+```bash
+./scripts/sync-strings.sh   # extracts the strings from the code and updates the catalog
+```
+
+New strings show up untranslated in the catalog, and `swift test` fails until every one has an English version with the same placeholders (`%@`, `%lld`) as the original.
+
+## Structure
 
 ```
 Sources/GalaxyMirror/
-├── App/          ponto de entrada (GalaxyMirrorApp, AppDelegate)
-├── Models/       tipos de dados (PairedDevice, MDNSService, Quality, Codec, SettingsKey…)
-├── Services/     integração com adb (ADB, Bonjour, LocalNetwork, Tools)
-│   └── Mirror/   cliente nativo do protocolo do scrcpy (servidor, sockets, vídeo, áudio, controle)
-├── ViewModels/   estado observável (AppModel, SetupModel)
-├── Views/        telas SwiftUI (Setup, Device, Settings), janela de espelhamento (Mirror) e componentes
-└── Extensions/   extensões de tipos do sistema
+├── App/          entry point (GalaxyMirrorApp, AppDelegate)
+├── Models/       data types (PairedDevice, MDNSService, Quality, Codec, SettingsKey…)
+├── Services/     adb integration (ADB, Bonjour, LocalNetwork, Tools)
+│   └── Mirror/   native client for the scrcpy protocol (server, sockets, video, audio, control)
+├── ViewModels/   observable state (AppModel, SetupModel)
+├── Views/        SwiftUI screens (Setup, Device, Settings), mirror window (Mirror) and components
+└── Extensions/   extensions to system types
 Tests/GalaxyMirrorTests/
-Resources/        Info.plist, ícone, traduções (.xcstrings), scrcpy-server e adb (baixados com checksum pelos scripts)
-scripts/          build do .app e do .dmg, download do servidor e do adb, geração do ícone e extração dos textos
+Resources/        Info.plist, icon, translations (.xcstrings), scrcpy-server and adb (downloaded and checksummed by the scripts)
+scripts/          .app and .dmg builds, server and adb downloads, icon generation and string extraction
 ```
 
-## Como funciona
+## How it works
 
-1. **Preparar o Galaxy** — ativar as Opções do desenvolvedor e a Depuração sem fio.
-2. **Parear** — o app mostra um QR code no mesmo formato do Android Studio (`WIFI:T:ADB;S:<nome>;P:<senha>;;`). Ao escaneá-lo, o celular anuncia `_adb-tls-pairing._tcp` via mDNS e o app executa `adb pair`.
-3. **Conectar** — o app aguarda o serviço `_adb-tls-connect._tcp` do celular e executa `adb connect`. O identificador do aparelho fica salvo para reconectar automaticamente, mesmo quando a porta muda.
-4. **Cabo USB (alternativa)** — sem Wi-Fi em comum, o app também conecta pelo cabo com a Depuração USB. Um Galaxy pareado por Wi-Fi passa a usar o cabo automaticamente quando ele está conectado.
-5. **Espelhar** — o app envia o servidor ao celular, abre os sockets de vídeo, áudio e controle por um túnel do adb e mostra o vídeo numa janela própria. Clique e arraste para tocar, use a rolagem do trackpad, digite pelo teclado (inclusive acentos), clique com o botão direito para voltar e use os botões Voltar, Início e Recentes da barra de título. A área de transferência é sincronizada nos dois sentidos (⌘V cola no celular).
-6. **Reconectar** — se a conexão cair durante o uso, a janela continua aberta com o aviso "Reconectando…" e o app tenta de novo por até 30 segundos, inclusive passando do cabo para o Wi-Fi. Enquanto o app está aberto, o status acompanha em tempo real se o celular está no cabo, no Wi-Fi ou desconectado.
+1. **Prepare the Galaxy** — turn on Developer options and Wireless debugging.
+2. **Pair** — the app shows a QR code in the same format as Android Studio (`WIFI:T:ADB;S:<name>;P:<password>;;`). When it is scanned, the phone advertises `_adb-tls-pairing._tcp` over mDNS and the app runs `adb pair`.
+3. **Connect** — the app waits for the phone's `_adb-tls-connect._tcp` service and runs `adb connect`. The device identifier is saved so it can reconnect automatically, even when the port changes.
+4. **USB cable (alternative)** — without a shared Wi-Fi network, the app also connects over the cable with USB debugging. A Galaxy paired over Wi-Fi switches to the cable automatically when it is plugged in.
+5. **Mirror** — the app sends the server to the phone, opens the video, audio and control sockets through an adb tunnel and shows the video in its own window. Click and drag to touch, scroll with the trackpad, type with the keyboard (accents included), right-click to go back and use the Back, Home and Recents buttons in the title bar. The clipboard is synced both ways (⌘V pastes on the phone).
+6. **Reconnect** — if the connection drops while in use, the window stays open with a "Reconnecting…" notice and the app tries again for up to 30 seconds, including switching from the cable to Wi-Fi. While the app is open, the status shows in real time whether the phone is on the cable, on Wi-Fi or disconnected.
 
-## Limitações
+## Limitations
 
-- A Depuração sem fio exige que o Mac e o celular estejam na mesma rede Wi-Fi; pelo hotspot do próprio celular ela não funciona (o app detecta e sugere o cabo USB).
-- A Depuração sem fio do Android pode desligar após reiniciar o celular ou trocar de rede. O pareamento continua válido: basta reativá-la no celular ou conectar o cabo USB uma vez, que o app a liga sozinho.
-- Apps com conteúdo protegido (bancos, streaming) aparecem com tela preta.
+- Wireless debugging requires the Mac and the phone to be on the same Wi-Fi network; it does not work over the phone's own hotspot (the app detects this and suggests the USB cable).
+- Android's Wireless debugging may turn off after the phone restarts or changes networks. The pairing stays valid: just turn it back on on the phone or connect the USB cable once, and the app turns it on by itself.
+- Apps with protected content (banking, streaming) show a black screen.
 
-## Contribuindo
+## Contributing
 
-Correções e melhorias são bem-vindas. Veja o [guia de contribuição](CONTRIBUTING.md). Para reportar vulnerabilidades, siga a [política de segurança](SECURITY.md).
+Fixes and improvements are welcome. See the [contribution guide](CONTRIBUTING.md). To report vulnerabilities, follow the [security policy](SECURITY.md).
 
-## Licença
+## License
 
-O Galaxy Mirror é distribuído sob a [licença Apache 2.0](LICENSE). Os créditos e as licenças de terceiros estão em [NOTICE](NOTICE) e acompanham o app em `Contents/Resources/`.
+Galaxy Mirror is distributed under the [Apache 2.0 license](LICENSE). Credits and third-party licenses are in [NOTICE](NOTICE) and ship with the app in `Contents/Resources/`.
 
-## Créditos
+## Credits
 
-O robô do Android no ícone é reproduzido ou modificado a partir de trabalho criado e compartilhado pelo Google, usado de acordo com os termos da [licença Creative Commons 3.0 Attribution](https://creativecommons.org/licenses/by/3.0/). O servidor de espelhamento é o do [scrcpy](https://github.com/Genymobile/scrcpy), da Genymobile, sob a licença Apache 2.0. O `adb` incluído no app é o do Android SDK Platform-Tools, do Google; os avisos de licença vão em `Contents/Resources/adb-NOTICE.txt`.
+The Android robot in the icon is reproduced or modified from work created and shared by Google and used according to terms described in the [Creative Commons 3.0 Attribution License](https://creativecommons.org/licenses/by/3.0/). The mirroring server is [scrcpy](https://github.com/Genymobile/scrcpy)'s, by Genymobile, under the Apache 2.0 license. The `adb` included in the app is Google's, from the Android SDK Platform-Tools; its license notices ship in `Contents/Resources/adb-NOTICE.txt`.
