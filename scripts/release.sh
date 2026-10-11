@@ -26,16 +26,16 @@ BUILD=$(( $(/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "$PLIST") + 1 ))
 CHANGES="$(git log ${PREVIOUS:+$PREVIOUS..}HEAD --pretty='- %s' --no-merges)"
 NOTICE=""
 if [ -n "$STAGE" ]; then
-    NOTICE="> **Versão $STAGE.** Esta é uma versão de teste e pode ter bugs. Se encontrar algum, abra uma issue contando o modelo do celular, a versão do Android e do macOS e o que aconteceu.
+    NOTICE="> **$STAGE release.** This is a test version and may have bugs. If you find one, open an issue with the phone model, the Android and macOS versions and what happened.
 "
 fi
 NOTES="$(cat <<NOTES
 $NOTICE
-## Instalação
+## Installation
 
-Baixe o \`Galaxy-Mirror.dmg\`, abra e arraste o **Galaxy Mirror** para **Aplicativos**. Se o macOS bloquear a primeira abertura, libere em **Ajustes do Sistema › Privacidade e Segurança › Abrir Mesmo Assim**.
+Download \`Galaxy-Mirror.dmg\`, open it and drag **Galaxy Mirror** to **Applications**. Requires macOS 14 or later. If macOS blocks the first launch, allow it in **System Settings › Privacy & Security › Open Anyway**.
 
-## Mudanças
+## Changes
 
 $CHANGES
 NOTES
