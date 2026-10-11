@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SetupPage<Header: View, Content: View, Buttons: View>: View {
-    let title: String
+    let title: Text
     @ViewBuilder var header: Header
     @ViewBuilder var content: Content
     @ViewBuilder var buttons: Buttons
@@ -11,7 +11,7 @@ struct SetupPage<Header: View, Content: View, Buttons: View>: View {
             header
                 .frame(maxWidth: .infinity, minHeight: 300, maxHeight: 300)
             VStack(alignment: .leading, spacing: 10) {
-                Text(title).font(.title2.bold())
+                title.font(.title2.bold())
                 content
                     .font(.title3)
                     .foregroundStyle(.secondary)
@@ -24,5 +24,16 @@ struct SetupPage<Header: View, Content: View, Buttons: View>: View {
                 .pillStyle()
         }
         .padding(28)
+    }
+}
+
+extension SetupPage {
+    init(
+        title: LocalizedStringKey,
+        @ViewBuilder header: () -> Header,
+        @ViewBuilder content: () -> Content,
+        @ViewBuilder buttons: () -> Buttons
+    ) {
+        self.init(title: Text(title), header: header, content: content, buttons: buttons)
     }
 }

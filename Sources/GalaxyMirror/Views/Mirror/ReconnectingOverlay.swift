@@ -12,7 +12,7 @@ final class ReconnectingOverlay: NSVisualEffectView {
 
         spinner.style = .spinning
         spinner.controlSize = .regular
-        let label = NSTextField(labelWithString: "Reconectando…")
+        let label = NSTextField(labelWithString: String(localized: "Reconectando…"))
         label.font = .systemFont(ofSize: NSFont.systemFontSize, weight: .medium)
         label.textColor = .labelColor
 

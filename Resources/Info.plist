@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>pt-BR</string>
+	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>Galaxy Mirror</string>
 	<key>CFBundleExecutable</key>
@@ -12,6 +12,11 @@
 	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.julianamarques.GalaxyMirror</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>pt-BR</string>
+	</array>
 	<key>CFBundleName</key>
 	<string>Galaxy Mirror</string>
 	<key>CFBundlePackageType</key>

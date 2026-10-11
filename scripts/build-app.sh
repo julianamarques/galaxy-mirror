@@ -24,6 +24,10 @@ cp LICENSE NOTICE Resources/licenses/scrcpy-LICENSE.txt "$APP/Contents/Resources
 cp Resources/Info.plist "$APP/Contents/Info.plist"
 cp Resources/AppIcon.icns "$APP/Contents/Resources/AppIcon.icns"
 cp Resources/scrcpy-server "$APP/Contents/Resources/scrcpy-server"
+for CATALOG in Resources/Localizable.xcstrings Resources/InfoPlist.xcstrings; do
+    xcrun xcstringstool compile "$CATALOG" --output-directory "$APP/Contents/Resources"
+    swift scripts/make-source-strings.swift "$CATALOG" "$APP/Contents/Resources" >/dev/null
+done
 codesign --force --sign - "$APP"
 
 echo "Pronto: $APP"

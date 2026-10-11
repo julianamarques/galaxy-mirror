@@ -9,10 +9,12 @@ enum UpdateChecker {
         request.setValue("GalaxyMirror", forHTTPHeaderField: "User-Agent")
         let (data, response) = try await URLSession.shared.data(for: request)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            throw ToolError.failed("Não foi possível consultar as atualizações no GitHub.")
+            throw ToolError.failed(String(localized: "Não foi possível consultar as atualizações no GitHub."))
         }
         return try JSONDecoder().decode([AppRelease].self, from: data)
     }
+
+    private static let changesHeadings: Set<String> = ["changes", "mudanças"]
 
     static func summary(of notes: String?, limit: Int = 8) -> [String] {
         guard let notes else { return [] }
@@ -20,7 +22,7 @@ enum UpdateChecker {
         var items: [String] = []
         for line in notes.split(whereSeparator: \.isNewline).map({ $0.trimmingCharacters(in: .whitespaces) }) {
             if line.hasPrefix("## ") {
-                inChanges = line.lowercased().contains("mudanças")
+                inChanges = changesHeadings.contains(line.dropFirst(3).trimmingCharacters(in: .whitespaces).lowercased())
             } else if inChanges, line.hasPrefix("- ") {
                 items.append(String(line.dropFirst(2)))
             }

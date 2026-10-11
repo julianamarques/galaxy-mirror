@@ -30,7 +30,7 @@ enum ADB {
     static func pair(address: String, code: String) async throws -> String? {
         let result = try await run(["pair", address, code], timeout: 30)
         guard ADBOutputParser.isPaired(result.output) else {
-            let message = ["O pareamento foi recusado. Confira o código e tente novamente.", result.output]
+            let message = [String(localized: "O pareamento foi recusado. Confira o código e tente novamente."), result.output]
                 .filter { !$0.isEmpty }
                 .joined(separator: "\n")
             throw ToolError.failed(message)
@@ -41,14 +41,14 @@ enum ADB {
     static func push(_ file: URL, to path: String, serial: String) async throws {
         let result = try await run(["-s", serial, "push", file.path, path], timeout: 30)
         guard ADBOutputParser.isPushed(result.output) else {
-            throw ToolError.failed(["Não foi possível enviar o servidor de espelhamento ao Galaxy.", result.output].joined(separator: "\n"))
+            throw ToolError.failed([String(localized: "Não foi possível enviar o servidor de espelhamento ao Galaxy."), result.output].joined(separator: "\n"))
         }
     }
 
     static func forward(_ remote: String, serial: String) async throws -> UInt16 {
         let result = try await run(["-s", serial, "forward", "tcp:0", remote], timeout: 10)
         guard let port = ADBOutputParser.forwardedPort(result.stdout) else {
-            throw ToolError.failed(["Não foi possível abrir o túnel com o Galaxy.", result.output].joined(separator: "\n"))
+            throw ToolError.failed([String(localized: "Não foi possível abrir o túnel com o Galaxy."), result.output].joined(separator: "\n"))
         }
         return port
     }

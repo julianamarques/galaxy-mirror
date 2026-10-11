@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct ProgressLabel: View {
-    let text: String
+    let text: LocalizedStringKey
 
-    init(_ text: String) {
+    init(_ text: LocalizedStringKey) {
         self.text = text
     }
 

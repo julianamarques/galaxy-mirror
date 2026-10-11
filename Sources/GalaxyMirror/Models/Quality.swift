@@ -7,10 +7,10 @@ enum Quality: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .max: "Máxima"
-        case .high: "Alta"
-        case .medium: "Média"
-        case .low: "Econômica"
+        case .max: String(localized: "Máxima")
+        case .high: String(localized: "Alta")
+        case .medium: String(localized: "Média")
+        case .low: String(localized: "Econômica")
         }
     }
 

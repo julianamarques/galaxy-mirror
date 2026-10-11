@@ -27,7 +27,7 @@ struct GalaxyPhone: View {
 
             VStack(spacing: 1) {
                 Circle().fill(.black).frame(width: 5, height: 5).padding(.top, 8)
-                Text("9:41")
+                Text(verbatim: "9:41")
                     .font(.system(size: 22, weight: .light, design: .rounded))
                     .foregroundStyle(.white.opacity(0.92))
                     .padding(.top, 12)

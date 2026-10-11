@@ -3,11 +3,11 @@ import SwiftUI
 struct PillButton: View {
     static let minWidth: CGFloat = 110
 
-    let title: String
+    let title: LocalizedStringKey
     let prominent: Bool
     let action: () -> Void
 
-    init(_ title: String, prominent: Bool = false, action: @escaping () -> Void) {
+    init(_ title: LocalizedStringKey, prominent: Bool = false, action: @escaping () -> Void) {
         self.title = title
         self.prominent = prominent
         self.action = action

@@ -119,7 +119,7 @@ struct SetupFlowView: View {
     }
 
     private func failed(_ problem: ConnectionProblem) -> some View {
-        SetupPage(title: problem.title) {
+        SetupPage(title: Text(problem.title)) {
             MirrorIllustration()
         } content: {
             VStack(alignment: .leading, spacing: 8) {

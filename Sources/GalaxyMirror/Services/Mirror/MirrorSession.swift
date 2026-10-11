@@ -141,13 +141,13 @@ final class MirrorSession {
     private nonisolated static func readVideo(from socket: TCPSocket, renderer: VideoRenderer, deliver: @Sendable (Event) -> Void) {
         do {
             guard let codec = Codec(scrcpyID: try socket.read(exactly: 4).bigEndian(at: 0)) else {
-                throw ToolError.failed("O Galaxy não conseguiu iniciar o vídeo.")
+                throw ToolError.failed(String(localized: "O Galaxy não conseguiu iniciar o vídeo."))
             }
             let builder = VideoSampleBuilder(codec: codec)
 
             while true {
                 guard let header = ScrcpyProtocol.parseHeader(try socket.read(exactly: ScrcpyProtocol.headerLength)) else {
-                    throw ToolError.failed("Dados de vídeo inválidos.")
+                    throw ToolError.failed(String(localized: "Dados de vídeo inválidos."))
                 }
                 switch header {
                 case let .session(width, height):
