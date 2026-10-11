@@ -7,8 +7,8 @@ enum Codec: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .h264: "H.264 (mais compatível)"
-        case .h265: "H.265 (melhor qualidade)"
+        case .h264: String(localized: "H.264 (mais compatível)")
+        case .h265: String(localized: "H.265 (melhor qualidade)")
         }
     }
 

@@ -5,7 +5,7 @@ struct DeviceView: View {
     @Environment(\.openURL) private var openURL
 
     var body: some View {
-        SetupPage(title: app.deviceName) {
+        SetupPage(title: Text(app.deviceName)) {
             MirrorIllustration(status: illustrationStatus)
         } content: {
             VStack(alignment: .leading, spacing: 8) {

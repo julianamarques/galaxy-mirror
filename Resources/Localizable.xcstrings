@@ -1,0 +1,1358 @@
+{
+  "sourceLanguage": "pt-BR",
+  "strings": {
+    "%@ Conecte os dois à mesma rede Wi-Fi ou use um cabo USB. O Ponto de acesso móvel do próprio Galaxy não funciona para a Depuração sem fio.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Connect both to the same Wi-Fi network or use a USB cable. The Galaxy's own Mobile Hotspot does not work with Wireless debugging."
+          }
+        }
+      }
+    },
+    "000000": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "000000"
+          }
+        }
+      }
+    },
+    "A Depuração sem fio não funciona quando o Mac está conectado ao Ponto de acesso móvel do próprio celular. Conecte o Mac e o Galaxy à mesma rede Wi-Fi ou use um cabo USB.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wireless debugging does not work when the Mac is connected to the phone's own Mobile Hotspot. Connect the Mac and the Galaxy to the same Wi-Fi network or use a USB cable."
+          }
+        }
+      }
+    },
+    "A conexão Wi-Fi com o celular está perdendo muitos dados. Aproxime o Galaxy do roteador, desligue o Ponto de acesso móvel dele ou conecte um cabo USB e tente de novo.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Wi-Fi connection to the phone is losing too much data. Move the Galaxy closer to the router, turn off its Mobile Hotspot or connect a USB cable, and try again."
+          }
+        }
+      }
+    },
+    "A conexão com o Galaxy foi encerrada.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The connection to the Galaxy was closed."
+          }
+        }
+      }
+    },
+    "A tela independente abre os apps numa tela virtual, sem mexer no que aparece no celular. Recurso experimental.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The separate screen opens apps on a virtual display, without changing what is shown on the phone. Experimental feature."
+          }
+        }
+      }
+    },
+    "A versão %@ está disponível. Você está usando a %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@ is available. You are using %@."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "new",
+            "value": "A versão %1$@ está disponível. Você está usando a %2$@."
+          }
+        }
+      }
+    },
+    "Abra **Configurações › Sobre o telefone › Informações do software** e toque 7 vezes em **Número de compilação**.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open **Settings › About phone › Software information** and tap **Build number** 7 times."
+          }
+        }
+      }
+    },
+    "Abrir Ajustes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Settings"
+          }
+        }
+      }
+    },
+    "Abrir Ajustes de Rede Local": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Local Network Settings"
+          }
+        }
+      }
+    },
+    "Agora Não": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not Now"
+          }
+        }
+      }
+    },
+    "Aguardando o Galaxy na rede…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting for the Galaxy on the network…"
+          }
+        }
+      }
+    },
+    "Aguardando o Galaxy no cabo USB…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting for the Galaxy on the USB cable…"
+          }
+        }
+      }
+    },
+    "Ajustes…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings…"
+          }
+        }
+      }
+    },
+    "Alta": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "High"
+          }
+        }
+      }
+    },
+    "Apagar a tela do Galaxy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn off the Galaxy's screen"
+          }
+        }
+      }
+    },
+    "Assegure-se de que o Galaxy esteja ligado, desbloqueado, conectado à mesma rede Wi-Fi que este Mac e com a Depuração sem fio ativada nas Opções do desenvolvedor.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Make sure the Galaxy is on, unlocked, connected to the same Wi-Fi network as this Mac, and has Wireless debugging turned on in Developer options."
+          }
+        }
+      }
+    },
+    "Atualizações": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Updates"
+          }
+        }
+      }
+    },
+    "Baixar Atualização": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Download Update"
+          }
+        }
+      }
+    },
+    "Bloquear o Galaxy ao encerrar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lock the Galaxy when finished"
+          }
+        }
+      }
+    },
+    "Cancelar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        }
+      }
+    },
+    "Celular": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phone"
+          }
+        }
+      }
+    },
+    "Clique em Espelhar para ver e controlar o Galaxy neste Mac.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Click Mirror to see and control the Galaxy on this Mac."
+          }
+        }
+      }
+    },
+    "Codec de vídeo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video codec"
+          }
+        }
+      }
+    },
+    "Começar a Espelhar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start Mirroring"
+          }
+        }
+      }
+    },
+    "Conectado por Wi-Fi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connected over Wi-Fi"
+          }
+        }
+      }
+    },
+    "Conectado por cabo USB": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connected by USB cable"
+          }
+        }
+      }
+    },
+    "Conectando ao Galaxy…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connecting to the Galaxy…"
+          }
+        }
+      }
+    },
+    "Conectar por cabo USB": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect with a USB cable"
+          }
+        }
+      }
+    },
+    "Conecte o Galaxy a este Mac com um cabo USB.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect the Galaxy to this Mac with a USB cable."
+          }
+        }
+      }
+    },
+    "Conecte o Galaxy à mesma rede Wi-Fi deste Mac ou ao Mac com um cabo USB.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect the Galaxy to the same Wi-Fi network as this Mac, or to the Mac with a USB cable."
+          }
+        }
+      }
+    },
+    "Configurar Wi-Fi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set Up Wi-Fi"
+          }
+        }
+      }
+    },
+    "Confira sua conexão com a internet e tente de novo.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check your internet connection and try again."
+          }
+        }
+      }
+    },
+    "Continuar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        }
+      }
+    },
+    "Copiar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy"
+          }
+        }
+      }
+    },
+    "Dados de vídeo inválidos.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invalid video data."
+          }
+        }
+      }
+    },
+    "Dispositivo": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Device"
+          }
+        }
+      }
+    },
+    "Durante o espelhamento": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "While mirroring"
+          }
+        }
+      }
+    },
+    "Econômica": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Low"
+          }
+        }
+      }
+    },
+    "Em **Configurações › Opções do desenvolvedor**, ative a **Depuração USB**.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In **Settings › Developer options**, turn on **USB debugging**."
+          }
+        }
+      }
+    },
+    "Em **Depuração sem fio**, toque em **Parear dispositivo com código de pareamento** e digite aqui o código de seis dígitos.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In **Wireless debugging**, tap **Pair device with pairing code** and enter the six-digit code here."
+          }
+        }
+      }
+    },
+    "Escaneie com o Galaxy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan with the Galaxy"
+          }
+        }
+      }
+    },
+    "Espelhando. Feche a janela do Galaxy para encerrar.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mirroring. Close the Galaxy window to stop."
+          }
+        }
+      }
+    },
+    "Espelhar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mirror"
+          }
+        }
+      }
+    },
+    "Espelhar automaticamente ao abrir o app": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mirror automatically when the app opens"
+          }
+        }
+      }
+    },
+    "Esquecer este Galaxy…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forget This Galaxy…"
+          }
+        }
+      }
+    },
+    "Este Galaxy foi configurado só pelo cabo. Conecte-o ao Mac com um cabo USB ou clique em Configurar Wi-Fi para usá-lo também sem fio.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This Galaxy was set up over cable only. Connect it to the Mac with a USB cable, or click Set Up Wi-Fi to also use it wirelessly."
+          }
+        }
+      }
+    },
+    "Falha ao conectar ao Galaxy (%@).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not connect to the Galaxy (%@)."
+          }
+        }
+      }
+    },
+    "Faltam alguns componentes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Some components are missing"
+          }
+        }
+      }
+    },
+    "Galaxy Mirror": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galaxy Mirror"
+          }
+        }
+      }
+    },
+    "Galaxy encontrado em %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galaxy found at %@"
+          }
+        }
+      }
+    },
+    "Geral": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "General"
+          }
+        }
+      }
+    },
+    "H.264 (mais compatível)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "H.264 (most compatible)"
+          }
+        }
+      }
+    },
+    "H.265 (melhor qualidade)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "H.265 (better quality)"
+          }
+        }
+      }
+    },
+    "IP e porta, ex.: 192.168.0.10:37123": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IP and port, e.g. 192.168.0.10:37123"
+          }
+        }
+      }
+    },
+    "Ignorar Esta Versão": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skip This Version"
+          }
+        }
+      }
+    },
+    "Imagem": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Picture"
+          }
+        }
+      }
+    },
+    "Impedir que o Galaxy entre em repouso": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep the Galaxy awake"
+          }
+        }
+      }
+    },
+    "Iniciando o espelhamento…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Starting mirroring…"
+          }
+        }
+      }
+    },
+    "Início": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home"
+          }
+        }
+      }
+    },
+    "Manter a janela sempre na frente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep the window always on top"
+          }
+        }
+      }
+    },
+    "Máxima": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maximum"
+          }
+        }
+      }
+    },
+    "Média": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medium"
+          }
+        }
+      }
+    },
+    "Nenhum": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "None"
+          }
+        }
+      }
+    },
+    "No Galaxy, abra **Opções do desenvolvedor › Depuração sem fio**.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On the Galaxy, open **Developer options › Wireless debugging**."
+          }
+        }
+      }
+    },
+    "No Galaxy, toque em **Permitir** quando aparecer **Permitir depuração USB?**.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On the Galaxy, tap **Allow** when **Allow USB debugging?** appears."
+          }
+        }
+      }
+    },
+    "No modo automático, o app verifica ao abrir e uma vez por dia. As novas versões são baixadas da página de Releases no GitHub.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In automatic mode, the app checks when it opens and once a day. New versions are downloaded from the Releases page on GitHub."
+          }
+        }
+      }
+    },
+    "Nova versão do Galaxy Mirror": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New version of Galaxy Mirror"
+          }
+        }
+      }
+    },
+    "Nunca": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Never"
+          }
+        }
+      }
+    },
+    "Não foi possível abrir o túnel com o Galaxy.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not open the tunnel to the Galaxy."
+          }
+        }
+      }
+    },
+    "Não foi possível consultar as atualizações no GitHub.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not check for updates on GitHub."
+          }
+        }
+      }
+    },
+    "Não foi possível enviar o servidor de espelhamento ao Galaxy.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not send the mirroring server to the Galaxy."
+          }
+        }
+      }
+    },
+    "Não foi possível verificar atualizações": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not check for updates"
+          }
+        }
+      }
+    },
+    "Não é possível conectar ao Galaxy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot connect to the Galaxy"
+          }
+        }
+      }
+    },
+    "O %@ está pronto. Use o trackpad e o teclado do Mac para controlar o celular, enquanto ele continua funcionando normalmente.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ is ready. Use the Mac's trackpad and keyboard to control the phone, while it keeps working normally."
+          }
+        }
+      }
+    },
+    "O Galaxy (%@) está em outra rede.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Galaxy (%@) is on another network."
+          }
+        }
+      }
+    },
+    "O Galaxy Mirror %@ é a versão mais nova disponível.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galaxy Mirror %@ is the newest version available."
+          }
+        }
+      }
+    },
+    "O Galaxy Mirror usa o adb, das ferramentas do Android, para se comunicar com o celular. Instale-o pelo Homebrew no Terminal:": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galaxy Mirror uses adb, from the Android platform tools, to talk to the phone. Install it with Homebrew in Terminal:"
+          }
+        }
+      }
+    },
+    "O Galaxy está em %@ e o Mac em %@.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Galaxy is on %@ and the Mac on %@."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "new",
+            "value": "O Galaxy está em %1$@ e o Mac em %2$@."
+          }
+        }
+      }
+    },
+    "O Galaxy está em %@, fora da rede deste Mac.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Galaxy is on %@, outside this Mac's network."
+          }
+        }
+      }
+    },
+    "O Galaxy não começou a enviar a imagem.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Galaxy did not start sending the picture."
+          }
+        }
+      }
+    },
+    "O Galaxy não conseguiu iniciar o vídeo.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Galaxy could not start the video."
+          }
+        }
+      }
+    },
+    "O Galaxy não enviou a configuração do vídeo.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Galaxy did not send the video configuration."
+          }
+        }
+      }
+    },
+    "O Galaxy não enviou a imagem": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Galaxy did not send the picture"
+          }
+        }
+      }
+    },
+    "O Galaxy não está conectado": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Galaxy is not connected"
+          }
+        }
+      }
+    },
+    "O Galaxy não está conectado por cabo USB.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Galaxy is not connected by USB cable."
+          }
+        }
+      }
+    },
+    "O Galaxy não respondeu a tempo.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Galaxy did not respond in time."
+          }
+        }
+      }
+    },
+    "O Mac e o Galaxy estão em redes diferentes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Mac and the Galaxy are on different networks"
+          }
+        }
+      }
+    },
+    "O Mac está conectado ao hotspot do Galaxy.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Mac is connected to the Galaxy's hotspot."
+          }
+        }
+      }
+    },
+    "O Mac está usando o hotspot do Galaxy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Mac is using the Galaxy's hotspot"
+          }
+        }
+      }
+    },
+    "O componente “%@” não foi encontrado.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The “%@” component was not found."
+          }
+        }
+      }
+    },
+    "O macOS está bloqueando o acesso do Galaxy Mirror à Rede Local, por isso o Galaxy não aparece.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS is blocking Galaxy Mirror's access to the Local Network, so the Galaxy does not show up."
+          }
+        }
+      }
+    },
+    "O macOS está impedindo o Galaxy Mirror de encontrar o Galaxy pelo Wi-Fi. Em Ajustes do Sistema › Privacidade e Segurança › Rede Local, ative o Galaxy Mirror.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS is preventing Galaxy Mirror from finding the Galaxy over Wi-Fi. In System Settings › Privacy & Security › Local Network, turn on Galaxy Mirror."
+          }
+        }
+      }
+    },
+    "O macOS não permitiu que o Galaxy Mirror acesse a rede local.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS did not allow Galaxy Mirror to access the local network."
+          }
+        }
+      }
+    },
+    "O pareamento foi recusado. Confira o código e tente novamente.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pairing was refused. Check the code and try again."
+          }
+        }
+      }
+    },
+    "O servidor de espelhamento encerrou no Galaxy.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The mirroring server quit on the Galaxy."
+          }
+        }
+      }
+    },
+    "O servidor de espelhamento não respondeu.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The mirroring server did not respond."
+          }
+        }
+      }
+    },
+    "Parar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop"
+          }
+        }
+      }
+    },
+    "Pareamento concluído. Estabelecendo a conexão sem fio.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pairing complete. Setting up the wireless connection."
+          }
+        }
+      }
+    },
+    "Pareando…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pairing…"
+          }
+        }
+      }
+    },
+    "Parear": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pair"
+          }
+        }
+      }
+    },
+    "Parear com código": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pair with code"
+          }
+        }
+      }
+    },
+    "Permita o acesso à Rede Local": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Local Network access"
+          }
+        }
+      }
+    },
+    "Prepare seu Galaxy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get your Galaxy ready"
+          }
+        }
+      }
+    },
+    "Procurando o Galaxy…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Looking for the Galaxy…"
+          }
+        }
+      }
+    },
+    "Procurando… ou informe o endereço exibido no Galaxy:": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Searching… or enter the address shown on the Galaxy:"
+          }
+        }
+      }
+    },
+    "Qualidade": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quality"
+          }
+        }
+      }
+    },
+    "Recentes": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recents"
+          }
+        }
+      }
+    },
+    "Reconectando ao Galaxy…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reconnecting to the Galaxy…"
+          }
+        }
+      }
+    },
+    "Reconectando…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reconnecting…"
+          }
+        }
+      }
+    },
+    "Reproduzir o áudio do Galaxy no Mac": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play the Galaxy's audio on the Mac"
+          }
+        }
+      }
+    },
+    "Saiba Mais…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Learn More…"
+          }
+        }
+      }
+    },
+    "Tentar Novamente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try Again"
+          }
+        }
+      }
+    },
+    "Toque em **Parear dispositivo com código QR** e aponte a câmera para o código acima.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap **Pair device with QR code** and point the camera at the code above."
+          }
+        }
+      }
+    },
+    "Toque em Permitir no Galaxy…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap Allow on the Galaxy…"
+          }
+        }
+      }
+    },
+    "Tudo pronto": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All set"
+          }
+        }
+      }
+    },
+    "Usar Cabo USB": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use USB Cable"
+          }
+        }
+      }
+    },
+    "Usar QR code": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use QR code"
+          }
+        }
+      }
+    },
+    "Usar Wi-Fi": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use Wi-Fi"
+          }
+        }
+      }
+    },
+    "Usar cabo USB": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use USB cable"
+          }
+        }
+      }
+    },
+    "Usar código de seis dígitos": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use six-digit code"
+          }
+        }
+      }
+    },
+    "Usar uma tela independente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use a separate screen"
+          }
+        }
+      }
+    },
+    "Use seu Galaxy (ou qualquer Android 11+) diretamente do Mac. Veja a tela, abra seus apps e digite com o teclado do Mac — pela sua rede Wi-Fi ou com um cabo USB.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use your Galaxy (or any Android 11+) right from your Mac. See its screen, open your apps and type with the Mac's keyboard — over your Wi-Fi network or with a USB cable."
+          }
+        }
+      }
+    },
+    "Verificar Agora": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check Now"
+          }
+        }
+      }
+    },
+    "Verificar Atualizações…": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check for Updates…"
+          }
+        }
+      }
+    },
+    "Verificar atualizações automaticamente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check for updates automatically"
+          }
+        }
+      }
+    },
+    "Versão instalada": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installed version"
+          }
+        }
+      }
+    },
+    "Você está usando a versão mais recente": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You're using the latest version"
+          }
+        }
+      }
+    },
+    "Voltar": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        }
+      }
+    },
+    "Volte para **Configurações › Opções do desenvolvedor** e ative a **Depuração sem fio** — ou a **Depuração USB**, se for usar o cabo.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go back to **Settings › Developer options** and turn on **Wireless debugging** — or **USB debugging** if you'll use the cable."
+          }
+        }
+      }
+    },
+    "desconhecida": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "unknown"
+          }
+        }
+      }
+    },
+    "seg., 6 de out.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mon, Oct 6"
+          }
+        }
+      }
+    },
+    "Última verificação": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last checked"
+          }
+        }
+      }
+    },
+    "Último endereço": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last address"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

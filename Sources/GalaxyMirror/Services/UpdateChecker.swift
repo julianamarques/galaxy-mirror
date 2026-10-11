@@ -9,7 +9,7 @@ enum UpdateChecker {
         request.setValue("GalaxyMirror", forHTTPHeaderField: "User-Agent")
         let (data, response) = try await URLSession.shared.data(for: request)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            throw ToolError.failed("Não foi possível consultar as atualizações no GitHub.")
+            throw ToolError.failed(String(localized: "Não foi possível consultar as atualizações no GitHub."))
         }
         return try JSONDecoder().decode([AppRelease].self, from: data)
     }

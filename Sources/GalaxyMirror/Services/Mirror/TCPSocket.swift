@@ -8,8 +8,8 @@ final class TCPSocket: @unchecked Sendable {
 
         var errorDescription: String? {
             switch self {
-            case .connectFailed(let code): "Falha ao conectar ao Galaxy (\(String(cString: strerror(code))))."
-            case .closed: "A conexão com o Galaxy foi encerrada."
+            case .connectFailed(let code): String(localized: "Falha ao conectar ao Galaxy (\(String(cString: strerror(code)))).")
+            case .closed: String(localized: "A conexão com o Galaxy foi encerrada.")
             }
         }
     }

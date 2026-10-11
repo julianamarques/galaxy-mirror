@@ -110,9 +110,9 @@ final class MirrorWindowController: NSWindowController, NSWindowDelegate {
 
     private func navigationAccessory() -> NSTitlebarAccessoryViewController {
         let buttons = [
-            button("chevron.backward", label: "Voltar", keycode: .back),
-            button("circle", label: "Início", keycode: .home),
-            button("square.on.square", label: "Recentes", keycode: .appSwitch),
+            button("chevron.backward", label: String(localized: "Voltar"), keycode: .back),
+            button("circle", label: String(localized: "Início"), keycode: .home),
+            button("square.on.square", label: String(localized: "Recentes"), keycode: .appSwitch),
         ]
         let stack = NSStackView(views: buttons)
         stack.spacing = 2

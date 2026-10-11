@@ -7,7 +7,7 @@ struct NumberedSteps: View {
         VStack(alignment: .leading, spacing: 10) {
             ForEach(steps.indices, id: \.self) { i in
                 HStack(alignment: .firstTextBaseline, spacing: 10) {
-                    Text("\(i + 1)")
+                    Text(verbatim: "\(i + 1)")
                         .font(.callout.bold())
                         .foregroundStyle(.white)
                         .frame(width: 22, height: 22)

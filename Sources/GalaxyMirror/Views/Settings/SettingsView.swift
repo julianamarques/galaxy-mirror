@@ -46,7 +46,7 @@ struct SettingsView: View {
             }
 
             Section("Dispositivo") {
-                LabeledContent("Celular", value: app.pairedDevice?.name ?? "Nenhum")
+                LabeledContent("Celular", value: app.pairedDevice?.name ?? String(localized: "Nenhum"))
                 if let address = app.pairedDevice?.lastAddress {
                     LabeledContent("Último endereço", value: address)
                 }

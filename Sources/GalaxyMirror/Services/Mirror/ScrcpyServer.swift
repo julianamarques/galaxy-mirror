@@ -72,7 +72,7 @@ enum ScrcpyServer {
 
     private static func connectFirstSocket(port: UInt16, process: Process) throws -> TCPSocket {
         for _ in 0..<100 {
-            guard process.isRunning else { throw ToolError.failed("O servidor de espelhamento encerrou no Galaxy.") }
+            guard process.isRunning else { throw ToolError.failed(String(localized: "O servidor de espelhamento encerrou no Galaxy.")) }
             if let socket = try? TCPSocket(connectingToLocalPort: port) {
                 socket.setReadTimeout(2)
                 if (try? socket.read(exactly: 1)) != nil {
@@ -83,6 +83,6 @@ enum ScrcpyServer {
             }
             Thread.sleep(forTimeInterval: 0.1)
         }
-        throw ToolError.failed("O servidor de espelhamento não respondeu.")
+        throw ToolError.failed(String(localized: "O servidor de espelhamento não respondeu."))
     }
 }

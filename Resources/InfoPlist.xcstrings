@@ -1,0 +1,23 @@
+{
+  "sourceLanguage" : "pt-BR",
+  "strings" : {
+    "NSLocalNetworkUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galaxy Mirror looks for your phone on the Wi-Fi network to connect and mirror its screen."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Galaxy Mirror procura seu celular na rede Wi-Fi para conectar e espelhar a tela."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

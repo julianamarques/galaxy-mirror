@@ -12,14 +12,14 @@ enum ToolError: LocalizedError, Equatable {
 
     var errorDescription: String? {
         switch self {
-        case .missing(let name): "O componente “\(name)” não foi encontrado."
+        case .missing(let name): String(localized: "O componente “\(name)” não foi encontrado.")
         case .failed(let message): message
-        case .timeout: "O Galaxy não respondeu a tempo."
-        case .phoneHotspot: "O Mac está conectado ao hotspot do Galaxy."
-        case .differentNetwork(_, let phone): "O Galaxy (\(phone)) está em outra rede."
-        case .usbNotConnected: "O Galaxy não está conectado por cabo USB."
-        case .mirrorTimeout: "O Galaxy não começou a enviar a imagem."
-        case .localNetworkDenied: "O macOS não permitiu que o Galaxy Mirror acesse a rede local."
+        case .timeout: String(localized: "O Galaxy não respondeu a tempo.")
+        case .phoneHotspot: String(localized: "O Mac está conectado ao hotspot do Galaxy.")
+        case .differentNetwork(_, let phone): String(localized: "O Galaxy (\(phone)) está em outra rede.")
+        case .usbNotConnected: String(localized: "O Galaxy não está conectado por cabo USB.")
+        case .mirrorTimeout: String(localized: "O Galaxy não começou a enviar a imagem.")
+        case .localNetworkDenied: String(localized: "O macOS não permitiu que o Galaxy Mirror acesse a rede local.")
         }
     }
 }

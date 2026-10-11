@@ -15,6 +15,15 @@ O app cuida do pareamento (por QR code ou código de seis dígitos), da conexão
 
 O app já traz o `adb` e o servidor do scrcpy; não é preciso instalar mais nada.
 
+## Idiomas
+
+| | Idioma |
+|---|---|
+| 🇧🇷 | Português do Brasil |
+| 🇺🇸 | Inglês |
+
+O app segue o idioma do macOS; nos demais idiomas, aparece em inglês.
+
 ## Aparelhos testados
 
 Até agora, o app foi testado apenas com os seguintes celulares:
@@ -55,6 +64,16 @@ Os scripts de build baixam o `adb` (`scripts/fetch-adb.sh`, platform-tools 37.0.
 
 Para desenvolvimento, `swift run` também funciona, e `swift test` roda os testes. Em builds de debug, `GALAXY_STEP=pair` (ou `prepare`, `code`, `connecting`, `failed`, `done`, `missing`) abre direto numa etapa da configuração.
 
+## Traduções
+
+Os textos ficam em português no código, e as traduções em `Resources/Localizable.xcstrings` (String Catalog, que pode ser editado no Xcode). O texto do pedido de acesso à Rede Local fica em `Resources/InfoPlist.xcstrings`. Depois de adicionar ou alterar textos, rode:
+
+```bash
+./scripts/sync-strings.sh   # extrai os textos do código e atualiza o catálogo
+```
+
+Os textos novos aparecem sem tradução no catálogo, e o `swift test` falha até que todos tenham a versão em inglês, com os mesmos marcadores (`%@`, `%lld`) do original.
+
 ## Estrutura
 
 ```
@@ -67,8 +86,8 @@ Sources/GalaxyMirror/
 ├── Views/        telas SwiftUI (Setup, Device, Settings), janela de espelhamento (Mirror) e componentes
 └── Extensions/   extensões de tipos do sistema
 Tests/GalaxyMirrorTests/
-Resources/        Info.plist, ícone, scrcpy-server e adb (baixados com checksum pelos scripts)
-scripts/          build do .app e do .dmg, download do servidor e do adb, geração do ícone
+Resources/        Info.plist, ícone, traduções (.xcstrings), scrcpy-server e adb (baixados com checksum pelos scripts)
+scripts/          build do .app e do .dmg, download do servidor e do adb, geração do ícone e extração dos textos
 ```
 
 ## Como funciona

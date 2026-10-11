@@ -5,7 +5,7 @@ final class VideoSampleBuilder {
     enum BuildError: LocalizedError {
         case missingParameterSets
 
-        var errorDescription: String? { "O Galaxy não enviou a configuração do vídeo." }
+        var errorDescription: String? { String(localized: "O Galaxy não enviou a configuração do vídeo.") }
     }
 
     let codec: Codec
