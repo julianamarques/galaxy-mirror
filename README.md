@@ -5,6 +5,15 @@ Mirror and control a Samsung Galaxy phone (or any Android 11+) on macOS, over Wi
 The app takes care of pairing (with a QR code or a six-digit code), connecting over Wi-Fi or a USB cable, and reconnecting automatically. Mirroring is native: the app sends the [scrcpy](https://github.com/Genymobile/scrcpy) server (pinned version, 5.0) to the phone, receives video and audio through its protocol and shows everything in its own window, with hardware decoding (VideoToolbox) and control with the mouse, trackpad and keyboard.
 
 <p align="center">
+  <a href="https://github.com/julianamarques/galaxy-mirror/releases/latest"><img src="https://img.shields.io/github/v/release/julianamarques/galaxy-mirror?style=flat-square&label=release&color=007ec6&include_prereleases" alt="Latest release"></a>
+  <img src="https://img.shields.io/badge/macOS-14%2B-000000?style=flat-square&logo=apple&logoColor=white" alt="macOS 14 or later">
+  <img src="https://img.shields.io/badge/Platform-Apple%20Silicon-8a8a8a?style=flat-square" alt="Runs on Apple Silicon">
+  <img src="https://img.shields.io/badge/Android-11%2B-3DDC84?style=flat-square&logo=android&logoColor=white" alt="Android 11 or later">
+  <img src="https://img.shields.io/badge/SwiftUI-native-F05138?style=flat-square&logo=swift&logoColor=white" alt="Native SwiftUI app">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-4c1?style=flat-square" alt="Apache 2.0 license"></a>
+</p>
+
+<p align="center">
   <img src="docs/images/welcome-screen.png" width="560" alt="Galaxy Mirror welcome screen, with an illustration of a Mac mirroring a Galaxy and the Learn More, Not Now and Continue buttons">
 </p>
 
@@ -30,7 +39,7 @@ So far, the app has only been tested with the following phones:
 
 | Phone | Android |
 | --- | --- |
-| Galaxy S25 | 16 |
+| Galaxy S25 | 16, 17 |
 | Galaxy A05s | 15 |
 | Galaxy A54 | 16 |
 
