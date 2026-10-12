@@ -7,7 +7,7 @@ The app takes care of pairing (with a QR code or a six-digit code), connecting o
 <p align="center">
   <a href="https://github.com/julianamarques/galaxy-mirror/releases/latest"><img src="https://img.shields.io/github/v/release/julianamarques/galaxy-mirror?style=flat-square&label=release&color=007ec6&include_prereleases" alt="Latest release"></a>
   <img src="https://img.shields.io/badge/macOS-14%2B-000000?style=flat-square&logo=apple&logoColor=white" alt="macOS 14 or later">
-  <img src="https://img.shields.io/badge/Platform-Apple%20Silicon-8a8a8a?style=flat-square" alt="Runs on Apple Silicon">
+  <img src="https://img.shields.io/badge/Platforms-Apple%20Silicon%20%7C%20Intel-8a8a8a?style=flat-square" alt="Runs on Apple Silicon and Intel">
   <img src="https://img.shields.io/badge/Android-11%2B-3DDC84?style=flat-square&logo=android&logoColor=white" alt="Android 11 or later">
   <img src="https://img.shields.io/badge/SwiftUI-native-F05138?style=flat-square&logo=swift&logoColor=white" alt="Native SwiftUI app">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-4c1?style=flat-square" alt="Apache 2.0 license"></a>
@@ -57,9 +57,11 @@ The app is only signed locally. On another Mac, macOS blocks the first launch sa
 ## Build
 
 ```bash
-./scripts/build-app.sh          # builds build/Galaxy Mirror.app
+./scripts/build-app.sh          # builds build/Galaxy Mirror.app for this Mac's architecture
 ./scripts/make-dmg.sh           # builds build/Galaxy Mirror.dmg
 ```
+
+Add `--universal` to either script to build for Apple Silicon and Intel; releases always do.
 
 To publish a new version on GitHub (requires a logged-in `gh`):
 

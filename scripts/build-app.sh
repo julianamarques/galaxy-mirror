@@ -2,11 +2,19 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-CONFIG="${1:-release}"
+CONFIG="release"
+ARCH_FLAGS=()
+for arg in "$@"; do
+    case "$arg" in
+        --universal) ARCH_FLAGS=(--arch arm64 --arch x86_64) ;;
+        -*) echo "opção desconhecida: $arg" >&2; exit 1 ;;
+        *) CONFIG="$arg" ;;
+    esac
+done
 APP="build/Galaxy Mirror.app"
 
-swift build -c "$CONFIG"
-BIN=".build/$CONFIG/GalaxyMirror"
+swift build -c "$CONFIG" ${ARCH_FLAGS[@]+"${ARCH_FLAGS[@]}"}
+BIN="$(swift build -c "$CONFIG" --show-bin-path ${ARCH_FLAGS[@]+"${ARCH_FLAGS[@]}"})/GalaxyMirror"
 
 [ -f Resources/AppIcon.icns ] || swift scripts/make-icon.swift
 ./scripts/fetch-server.sh

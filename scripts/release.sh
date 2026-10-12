@@ -52,7 +52,7 @@ fi
 git commit -q -m "chore: release $TAG" "$PLIST"
 git push -q origin main
 
-./scripts/make-dmg.sh
+./scripts/make-dmg.sh --universal
 cp "build/Galaxy Mirror.dmg" "$DMG"
 
 gh release create "$TAG" "$DMG" --target main --title "Galaxy Mirror $VERSION" --notes "$NOTES" ${STAGE:+--prerelease}
