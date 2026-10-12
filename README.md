@@ -39,7 +39,7 @@ So far, the app has only been tested with the following phones:
 
 | Phone | Android |
 | --- | --- |
-| Galaxy S25 | 16 |
+| Galaxy S25 | 16, 17 |
 | Galaxy A05s | 15 |
 | Galaxy A54 | 16 |
 
