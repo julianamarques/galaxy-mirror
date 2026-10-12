@@ -6,7 +6,7 @@ APP="build/Galaxy Mirror.app"
 DMG="build/Galaxy Mirror.dmg"
 STAGE="build/dmg"
 
-./scripts/build-app.sh
+./scripts/build-app.sh "$@"
 
 rm -rf "$STAGE" "$DMG"
 mkdir -p "$STAGE"
